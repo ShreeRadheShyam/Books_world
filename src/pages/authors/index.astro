@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AuthorCard from '../../components/author/AuthorCard.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import { getAllAuthors } from '../../data';
+import { generateBreadcrumbSchema } from '../../utils/seo';
+
+const authors = getAllAuthors();
+
+const breadcrumbs = [
+  { label: 'Authors' }
+];
+
+const schema = generateBreadcrumbSchema([
+  { name: 'Home', item: '/' },
+  { name: 'Authors', item: '/authors' }
+]);
+---
+
+<BaseLayout
+  title="Independent Authors & Practitioners — BookskiDuniya"
+  description="Discover the verified engineers, architects, founders, and leaders who author our curated technical eBooks."
+  schema={schema}
+>
+  <div class="w-full bg-[#f7f4ee] py-10 sm:py-16">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <Breadcrumbs items={breadcrumbs} />
+
+      <div class="mb-12 text-center max-w-2xl mx-auto">
+        <span class="text-[12px] font-mono font-bold tracking-widest uppercase text-[#064c37]">
+          The Authors Guild
+        </span>
+        <h1 class="text-4xl sm:text-5xl font-serif font-normal text-[#161015] tracking-tight mt-2 leading-[0.95]">
+          Meet the Authors
+        </h1>
+        <p class="text-[16px] text-[#3f383d] mt-3 leading-relaxed tracking-[-0.32px]">
+          We celebrate verified Staff+ engineers, bootstrapped founders, and domain experts. 100% of purchase proceeds go directly to them.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {authors.map((author) => (
+          <AuthorCard author={author} />
+        ))}
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>

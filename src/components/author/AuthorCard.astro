@@ -1,0 +1,57 @@
+---
+import type { Author } from '../../types';
+import { getEbooksByAuthor } from '../../data';
+
+interface Props {
+  author: Author;
+}
+
+const { author } = Astro.props;
+const authorBooks = getEbooksByAuthor(author.id);
+---
+
+<div class="card-cream group relative rounded-[12px] bg-[#f7f4ee] p-6 transition-all duration-300 hover:shadow-[0_4px_20px_0_rgba(0,0,0,0.08)] flex flex-col justify-between">
+  <div>
+    <div class="flex items-start gap-4">
+      <img
+        src={author.avatar}
+        alt={author.name}
+        class="w-14 h-14 rounded-full object-cover border-2 border-white shadow-sm shrink-0"
+        loading="lazy"
+      />
+      <div class="min-w-0 flex-1">
+        <h3 class="text-[20px] font-serif font-normal text-[#161015] group-hover:text-[#064c37] transition-colors truncate">
+          <a href={`/authors/${author.slug}`}>
+            {author.name}
+          </a>
+        </h3>
+        <p class="text-[13px] text-[#3f383d]/80 truncate mt-0.5">
+          {author.title}
+        </p>
+        {author.location && (
+          <span class="inline-flex items-center gap-1 text-[11px] text-[#3f383d]/60 mt-1">
+            {author.location}
+          </span>
+        )}
+      </div>
+    </div>
+
+    <p class="text-[13px] text-[#3f383d] mt-4 line-clamp-3 leading-relaxed tracking-[-0.2px]">
+      {author.shortBio}
+    </p>
+  </div>
+
+  <div class="mt-6 pt-4 border-t border-[#e5e0d8] flex items-center justify-between">
+    <span class="text-[12px] font-mono text-[#064c37] font-semibold">
+      {authorBooks.length} {authorBooks.length === 1 ? 'Volume' : 'Volumes'}
+    </span>
+
+    <a
+      href={`/authors/${author.slug}`}
+      class="inline-flex items-center px-4 py-1.5 rounded-[60px] bg-[#292229] hover:bg-[#161015] text-white text-[13px] font-medium tracking-[-0.2px] transition-all"
+    >
+      <span>Profile</span>
+      <span class="ml-1">&rarr;</span>
+    </a>
+  </div>
+</div>

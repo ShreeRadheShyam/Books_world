@@ -1,0 +1,108 @@
+---
+import type { Ebook, Author } from '../../types';
+
+interface Props {
+  ebook: Ebook;
+  author?: Author;
+  variant?: 'primary' | 'compact' | 'white';
+  label?: string;
+}
+
+const { 
+  ebook, 
+  author, 
+  variant = 'primary', 
+  label = "Get the eBook on Creator's Website" 
+} = Astro.props;
+
+let hostname = 'Official Creator Website';
+try {
+  hostname = new URL(ebook.externalUrl).hostname.replace('www.', '');
+} catch (e) {
+  hostname = 'Official Website';
+}
+---
+
+<div class="external-cta-wrapper w-full">
+  {variant === 'primary' ? (
+    <div class="space-y-4">
+      {/* Primary Conversion Button — Fable Stadium-Pill 60px radius in Charcoal Plum (#292229) */}
+      <a
+        href={ebook.externalUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-external-cta
+        data-ebook-id={ebook.id}
+        data-ebook-slug={ebook.slug}
+        data-ebook-title={ebook.title}
+        data-destination={ebook.externalUrl}
+        data-author-name={author?.name || 'Creator'}
+        data-price={ebook.price}
+        class="group w-full py-4 px-8 rounded-[60px] bg-[#292229] hover:bg-[#161015] text-white font-medium text-[16px] text-center transition-all duration-200 shadow-[0_4px_20px_0_rgba(0,0,0,0.4)] flex items-center justify-center gap-3 tracking-[-0.32px] focus:outline-none"
+      >
+        <span>{label}</span>
+        <span class="text-white/70 font-normal">(${ebook.price})</span>
+        <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+      </a>
+
+      {/* Trust & Transparency Note — Warm Paper Cream Card */}
+      <div class="rounded-[12px] p-4 bg-[#f7f4ee] border border-[#e5e0d8] text-[#3f383d] text-[13px] flex items-start gap-3">
+        <svg class="w-5 h-5 text-[#064c37] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <div class="leading-relaxed">
+          <strong class="text-[#161015] block mb-0.5">Direct Author Checkout:</strong>
+          You will complete your purchase directly on <span class="text-[#064c37] font-semibold">{hostname}</span>. BookskiDuniya holds zero files and charges no transaction markups.
+        </div>
+      </div>
+    </div>
+  ) : (
+    <a
+      href={ebook.externalUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-external-cta
+      data-ebook-id={ebook.id}
+      data-ebook-slug={ebook.slug}
+      data-ebook-title={ebook.title}
+      data-destination={ebook.externalUrl}
+      data-author-name={author?.name || 'Creator'}
+      data-price={ebook.price}
+      class="inline-flex items-center gap-2 px-6 py-3 rounded-[60px] bg-[#292229] hover:bg-[#161015] text-white font-medium text-[14px] tracking-[-0.25px] transition-all shadow-md"
+    >
+      <span>Visit Official Site</span>
+      <span>&rarr;</span>
+    </a>
+  )}
+</div>
+
+<script>
+  document.querySelectorAll('[data-external-cta]').forEach((button) => {
+    button.addEventListener('click', (e) => {
+      const target = e.currentTarget as HTMLElement;
+      const ebookId = target.dataset.ebookId || '';
+      const ebookSlug = target.dataset.ebookSlug || '';
+      const ebookTitle = target.dataset.ebookTitle || '';
+      const destination = target.dataset.destination || '';
+      const authorName = target.dataset.authorName || '';
+      const price = Number(target.dataset.price) || 0;
+
+      window.dispatchEvent(
+        new CustomEvent('bookskiduniya:analytics', {
+          detail: {
+            event: 'ebook_external_click',
+            properties: {
+              ebookId,
+              ebookSlug,
+              ebookTitle,
+              destination,
+              authorName,
+              price
+            },
+            timestamp: new Date().toISOString()
+          }
+        })
+      );
+    });
+  });
+</script>

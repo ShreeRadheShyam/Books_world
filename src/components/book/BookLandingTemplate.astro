@@ -1,0 +1,723 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { Ebook } from '../../types';
+
+interface Props {
+  book: Ebook;
+}
+
+const { book } = Astro.props;
+
+// Fallbacks for data structures
+const parts = book.parts || [];
+const metrics = book.metrics || [
+  { num: '01', title: 'Capability', description: 'Solving previously intractable problems.' },
+  { num: '02', title: 'Reliability', description: 'Failing one-tenth as often on critical workflows.' },
+  { num: '03', title: 'Task Horizon', description: 'Autonomous multi-day operational workflows.' },
+  { num: '04', title: 'Cost & Breadth', description: 'Near-zero marginal cost of deployment.' }
+];
+const domains = book.domains || [];
+const hardProblems = book.hardProblems || [];
+const scenarios = book.scenarios || {};
+const defaultScenario = scenarios.quiet || {
+  title: 'Quiet Ramp',
+  lead: 'Capability arrives, but diffusion takes years. The changes are real, uneven, and easier to adapt to.',
+  items: [
+    ['Months 1–3', 'Software and research teams integrate first; reliability improvements are visible before mass displacement.'],
+    ['Months 4–8', 'Early adopters pull ahead. Organisations begin rewriting workflows around longer autonomous task horizons.'],
+    ['Months 9–12', 'The question shifts from “can it help?” to “where should we still mandate a human signature?”']
+  ]
+};
+const checklists = book.checklists || {
+  individual: [
+    'Audit where you currently rely on automated outputs without independent verification.',
+    'Learn your domain’s rare, high-consequence failure modes.',
+    'Optimise for empirical learning rate over legacy organizational title.',
+    'Develop instinctive provenance checks for incoming information.'
+  ],
+  organizational: [
+    'Establish quantifiable reliability thresholds for every candidate workflow.',
+    'Inventory internal software, external API dependencies, and critical training data.',
+    'Compress deployment and operational security patch turnaround cycles.',
+    'Enforce a named human owner for every consequential automated decision.'
+  ]
+};
+const reviews = book.citationReviews || [
+  { source: 'MIT Tech Review', quote: 'A sobering antidote to hype.' },
+  { source: 'Oxford GovAI', quote: 'Rigorous horizon analysis.' },
+  { source: 'IEEE Spectrum', quote: 'Physical vs software friction.' },
+  { source: 'The Information', quote: "The skeptic's chapter is gold." },
+  { source: 'ACM Queue', quote: 'Must-read for architects.' },
+  { source: 'Nature MI', quote: 'Falsifiable forecasting.' }
+];
+---
+
+<BaseLayout 
+  title={`${book.title} — Official Field Guide`}
+  description={book.shortDescription}
+>
+  {/* HERO SECTION: Golden Hour Editorial Canvas (#f2f0eb) with Translucent Glass Cards & 3D Interactive Book */}
+  <section class="relative w-full overflow-hidden pt-12 sm:pt-20 pb-20 sm:pb-28" id="top">
+    
+    {/* Subtle atmospheric golden-hour warmth in background */}
+    <div class="absolute inset-0 pointer-events-none opacity-40">
+      <div class="absolute -top-[20%] left-[15%] w-[500px] h-[500px] rounded-full bg-[#d4c7ff]/30 blur-[100px]"></div>
+      <div class="absolute top-[30%] right-[10%] w-[600px] h-[600px] rounded-full bg-[#714cb6]/15 blur-[120px]"></div>
+    </div>
+
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        
+        {/* Left Column: Editorial Voice (Weight 460 Headlines, Charcoal ink text, Maroon CTA) */}
+        <div class="lg:col-span-7 space-y-6 sm:space-y-8 text-left">
+          
+          {/* Eyebrow */}
+          <div class="flex items-center gap-3">
+            <span class="text-[11px] font-bold tracking-[0.2em] uppercase text-[#714cb6]">
+              A Field Guide &bull; 2026 Edition
+            </span>
+            <div class="h-px w-16 bg-[#714cb6]/40"></div>
+            <span class="text-[11px] font-[460] tracking-wider uppercase text-[#666666]">
+              Capability &bull; Consequence &bull; Choice
+            </span>
+          </div>
+
+          {/* Headline at Weight 460 — The Superhuman Signature Voice */}
+          <h1 class="headline-display text-[#292827]">
+            {book.title.replace('10× smarter', '')}
+            <span class="text-editorial-serif italic text-[#714cb6] font-normal">10× smarter</span>
+            {book.title.includes('tomorrow?') ? ' tomorrow?' : ''}
+          </h1>
+
+          {/* Subtitle */}
+          <p class="text-[18px] sm:text-[21px] text-[#292827]/85 max-w-[560px] leading-[1.45] font-normal">
+            {book.subtitle}
+          </p>
+
+          {/* Action Row */}
+          <div class="flex flex-wrap items-center gap-4 pt-2">
+            <button 
+              type="button"
+              data-open-buy-modal
+              class="btn-primary-wine shadow-sm group"
+            >
+              <span>Buy the Book</span>
+              <span class="px-2 py-0.5 rounded-full bg-white/20 text-xs font-semibold">${book.price.toFixed(2)}</span>
+              <span class="transition-transform group-hover:translate-x-1">&rarr;</span>
+            </button>
+
+            <a href="#contents" class="btn-outlined-lilac">
+              <span>Explore Contents</span>
+              <span>&darr;</span>
+            </a>
+
+            <button 
+              type="button" 
+              data-open-modal="method" 
+              class="btn-ghost-text text-sm ml-1"
+            >
+              <span>How to use this guide</span>
+              <span class="text-[#714cb6]">&nearr;</span>
+            </button>
+          </div>
+
+          {/* Floating Translucent Product UI Cards Over Hero */}
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 max-w-[580px]">
+            
+            <div class="card-floating-glass">
+              <div class="flex items-center justify-between text-xs text-[#666666] mb-2 font-[460]">
+                <span class="text-[#714cb6] font-semibold">{parts.length} Parts &bull; {book.tableOfContents?.length || 14} Chapters</span>
+                <span>Unabridged</span>
+              </div>
+              <p class="text-xs text-[#292827] leading-relaxed">
+                "Separates capability claims from deployment friction, turning uncertainty into executable strategy."
+              </p>
+            </div>
+
+            <div class="card-floating-glass">
+              <div class="flex items-center justify-between text-xs text-[#666666] mb-2 font-[460]">
+                <span class="text-[#421d24] font-semibold">DRM-Free Formats</span>
+                <span>Instant Access</span>
+              </div>
+              <p class="text-xs text-[#292827] leading-relaxed">
+                Includes .EPUB for e-readers, printable high-res .PDF, and searchable Markdown files.
+              </p>
+            </div>
+
+          </div>
+
+          <p class="text-xs text-[#666666] font-[460]">
+            Researched &bull; Peer-Reviewed &bull; Direct Author Edition &bull; September 2026
+          </p>
+
+        </div>
+
+        {/* Right Column: 3D Physics-Tilted Interactive Book Stage */}
+        <div class="lg:col-span-5 flex justify-center items-center py-6">
+          <div class="book-stage" id="book-stage">
+            
+            {/* Orbital Rings */}
+            <div class="orbit-ring"></div>
+            <div class="orbit-ring two"></div>
+            
+            {/* Soft Shadow */}
+            <div class="book-shadow"></div>
+
+            {/* 3D Book */}
+            <div class="book-3d cursor-pointer" id="hero-book-3d" data-open-buy-modal title={`Click to buy $${book.price.toFixed(2)}`}>
+              
+              <div class="book-face">
+                <div class="text-[10px] font-bold tracking-[0.24em] uppercase text-[#d4c7ff] mb-auto pt-2">
+                  {book.coverStyle?.badgeText || 'FIELD GUIDE · 01'}
+                </div>
+
+                <div class="my-auto space-y-3">
+                  <div class="text-xs tracking-wider uppercase text-white/80 font-mono">
+                    WHAT IF AI BECAME
+                  </div>
+                  <div class="text-3xl sm:text-4xl font-bold tracking-tight text-white leading-none">
+                    10<span class="text-[#d4c7ff]">×</span> SMARTER
+                  </div>
+                  <div class="text-xs tracking-wider uppercase text-white/80 font-mono">
+                    TOMORROW?
+                  </div>
+                  <div class="w-12 h-0.5 bg-[#d4c7ff] mx-auto my-3"></div>
+                  <p class="text-[11px] text-editorial-serif italic text-white/85 max-w-[200px] mx-auto leading-normal">
+                    {book.subtitle}
+                  </p>
+                </div>
+
+                <div class="mt-auto pb-2 text-[10px] font-mono tracking-widest text-[#d4c7ff]/90 flex items-center justify-between w-full px-2 border-t border-white/20 pt-2">
+                  <span>2026 EDITION</span>
+                  <span>${book.price.toFixed(2)} USD</span>
+                </div>
+              </div>
+
+              <div class="book-spine"></div>
+              <div class="book-pages"></div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {/* SOCIAL PROOF & CRITICAL CITATIONS: Monochrome 6-Cell White Strip */}
+  <section class="w-full bg-white border-y border-[#e3e3e2] py-8">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 divide-y sm:divide-y-0 sm:divide-x divide-[#e3e3e2]">
+        {reviews.map((r) => (
+          <div class="p-4 text-center">
+            <p class="text-xs font-bold text-[#292827] uppercase tracking-wider">{r.source}</p>
+            <p class="text-[11px] text-[#666666] mt-1 font-editorial-serif italic">"{r.quote}"</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* SUITE TAB STRIP & COMPLETE TABLE OF CONTENTS: White Cards on Parchment Canvas */}
+  <section class="w-full py-20 sm:py-28" id="contents">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        
+        {/* Sticky Left Sidebar */}
+        <div class="lg:col-span-4 lg:sticky lg:top-28 space-y-5">
+          <div class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#714cb6]">
+            Inside the Book
+          </div>
+          <h2 class="headline-lg text-[#292827]">
+            Not a prophecy.<br />A way to think.
+          </h2>
+          <p class="text-[15px] text-[#666666] leading-relaxed">
+            The field guide turns one impossible question into a usable map: define the jump, trace the consequences, name the hard problems, and decide what holds regardless.
+          </p>
+
+          <div class="pt-2">
+            <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#421d24]">
+              <span class="w-8 h-0.5 bg-[#421d24]"></span>
+              <span>{book.tableOfContents?.length || 14} Chapters &bull; {parts.length} Complete Parts</span>
+            </span>
+          </div>
+
+          <div class="pt-4">
+            <button 
+              type="button" 
+              data-open-buy-modal
+              class="btn-primary-wine text-xs sm:text-sm py-2 px-5 h-auto"
+            >
+              <span>Download Unabridged Guide &bull; ${book.price.toFixed(2)}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Right Content: Parts Cards */}
+        <div class="lg:col-span-8 space-y-6">
+          {parts.map((part) => (
+            <article class="card-paper">
+              <div class="flex items-baseline justify-between border-b border-[#e3e3e2] pb-3 mb-4">
+                <div>
+                  <span class="text-xs font-bold tracking-wider uppercase text-[#714cb6]">Part {part.number}</span>
+                  <h3 class="text-2xl font-[460] text-[#292827] mt-0.5">{part.title}</h3>
+                </div>
+                <span class="text-xs text-[#666666] font-[460]">
+                  {part.chapters.length} Chapters
+                </span>
+              </div>
+              <p class="text-sm text-[#666666] mb-4">
+                {part.description}
+              </p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                {part.chapters.map((ch) => {
+                  const keyMap: Record<number, string> = {
+                    1: 'what10x', 2: 'stands', 3: 'roads',
+                    4: 'science', 5: 'work', 6: 'software', 7: 'truth',
+                    8: 'control', 9: 'power', 10: 'skeptic',
+                    11: 'scenarios', 12: 'individuals', 13: 'organisations', 14: 'policymakers'
+                  };
+                  const key = keyMap[Number(ch.number)] || 'method';
+                  return (
+                    <button 
+                      type="button" 
+                      class="text-left p-3 rounded-lg border border-[#e3e3e2] hover:border-[#714cb6] hover:bg-[#f2f0eb]/50 transition-colors group cursor-pointer" 
+                      data-chapter={key}
+                    >
+                      <span class="text-xs font-bold text-[#714cb6] block mb-0.5">Chapter {ch.number.toString().padStart(2, '0')}</span>
+                      <span class="text-sm font-[460] text-[#292827] group-hover:text-[#714cb6]">{ch.title} &rarr;</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </article>
+          ))}
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  {/* PART 1 FEATURE: Metric Board */}
+  <section class="w-full py-20 bg-white border-y border-[#e3e3e2]" id="jump">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-5 space-y-5">
+          <div class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#714cb6]">
+            Part 1 &bull; Defining The Jump
+          </div>
+          <h2 class="headline-lg text-[#292827]">
+            “Smarter” is the wrong <span class="text-editorial-serif italic text-[#714cb6] font-normal">word.</span>
+          </h2>
+          <p class="text-[16px] text-[#666666] leading-relaxed">
+            A ten-fold jump is not a single dial turning up. It is a bundle of separable properties, each with a different consequence.
+          </p>
+
+          <div class="p-5 rounded-xl bg-[#f2f0eb] border-l-4 border-[#714cb6] space-y-2">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-[#714cb6] block">
+              KEY PRINCIPLE
+            </span>
+            <p class="text-sm text-[#292827] leading-relaxed font-editorial-serif italic">
+              {book.keyIdea || 'Capability can improve at the frontier while reliability, task length, cost, and breadth move differently.'}
+            </p>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {metrics.map((m) => (
+              <div class="card-paper">
+                <div class="text-3xl font-bold text-[#714cb6] font-mono">{m.num}</div>
+                <h4 class="text-lg font-[460] text-[#292827] mt-3">{m.title}</h4>
+                <p class="text-xs text-[#666666] mt-2 leading-relaxed">{m.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {/* PART 2 FEATURE: Domains Grid */}
+  <section class="w-full py-20 sm:py-28" id="morning">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="max-w-2xl mb-12 space-y-3">
+        <div class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#714cb6]">
+          Part 2 &bull; The Morning After
+        </div>
+        <h2 class="headline-lg text-[#292827]">
+          Where the jump <span class="text-editorial-serif italic text-[#714cb6] font-normal">lands first.</span>
+        </h2>
+        <p class="text-[16px] text-[#666666] leading-relaxed">
+          Physical bottlenecks slow some domains. Software has almost none. The first year is shaped by where verification is cheap and deployment is already waiting.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {domains.map((d) => (
+          <article class="card-paper flex flex-col justify-between">
+            <div>
+              <div class="text-xs font-bold text-[#714cb6] uppercase tracking-wider mb-3">Domain {d.num}</div>
+              <h3 class="text-xl font-[460] text-[#292827]">{d.title}</h3>
+              <p class="text-xs text-[#666666] mt-2.5 leading-relaxed">{d.description}</p>
+            </div>
+            <button type="button" data-chapter={d.chapterKey || 'science'} class="text-left text-xs font-bold text-[#714cb6] hover:underline mt-6 pt-4 border-t border-[#e3e3e2] cursor-pointer">
+              Read chapter summary &rarr;
+            </button>
+          </article>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  {/* PART 3 DARK FEATURE BAND: DEEP LAGOON (#0c4243) */}
+  <section class="w-full bg-[#0c4243] text-white py-20 sm:py-28 relative overflow-hidden" id="hard">
+    
+    <div class="absolute inset-0 pointer-events-none opacity-20">
+      <div class="absolute top-10 left-10 w-96 h-64 border border-[#d4c7ff] rounded-2xl rotate-6"></div>
+      <div class="absolute bottom-10 left-1/4 w-80 h-80 bg-[#d4c7ff]/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-5 space-y-6">
+          <div class="relative p-8 rounded-2xl bg-white/5 border border-white/15 backdrop-blur-xs space-y-4">
+            <span class="text-xs font-mono text-[#d4c7ff] uppercase tracking-widest block">
+              PART 3 &bull; THE GOVERNANCE IMPERATIVE
+            </span>
+            <blockquote class="text-xl sm:text-2xl font-[460] leading-snug font-editorial-serif italic text-white/95">
+              "The control problem is not whether a machine turns evil. It is whether we can tell if it is doing what we asked."
+            </blockquote>
+            <p class="text-xs text-white/60 font-mono">
+              Field Guide Chapter 08 &bull; Specification, Robustness &amp; Monitoring
+            </p>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-[#082a2b] border border-white/10 space-y-2">
+            <h4 class="text-sm font-semibold text-[#d4c7ff]">The Skeptical Case</h4>
+            <p class="text-xs text-white/75 leading-relaxed">
+              Progress is real, but benchmarks are narrow, evaluations are brittle, and empirical forecasts must remain strictly falsifiable.
+            </p>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 space-y-6">
+          <div class="text-xs font-bold uppercase tracking-[0.2em] text-[#d4c7ff]">
+            Part 3 &bull; The Hard Problems
+          </div>
+
+          <h2 class="text-4xl sm:text-5xl lg:text-6xl font-[460] tracking-tight leading-[1.04] text-white">
+            Good news depends on <span class="text-editorial-serif italic text-[#d4c7ff] font-normal">who controls it.</span>
+          </h2>
+
+          <p class="text-[16px] sm:text-[18px] text-white/80 leading-relaxed font-normal">
+            Suppose the technical control problem is solved and systems do exactly what their operators intend. Who are the operators, and what happens to everyone else?
+          </p>
+
+          <div class="space-y-3 pt-4">
+            {hardProblems.map((hp) => (
+              <button 
+                type="button" 
+                data-chapter={hp.chapterKey || 'control'} 
+                class="w-full text-left p-4 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 transition-colors flex items-center justify-between group cursor-pointer"
+              >
+                <div class="flex items-center gap-4">
+                  <span class="text-lg font-mono font-bold text-[#d4c7ff]">{hp.num}</span>
+                  <div>
+                    <h4 class="text-base font-[460] text-white group-hover:text-[#d4c7ff] transition-colors">{hp.title}</h4>
+                    <p class="text-xs text-white/60">{hp.description}</p>
+                  </div>
+                </div>
+                <span class="text-xl text-[#d4c7ff] group-hover:translate-x-1 transition-transform">&rarr;</span>
+              </button>
+            ))}
+          </div>
+
+          <div class="pt-4">
+            <button 
+              type="button" 
+              data-open-buy-modal 
+              class="btn-outlined-lilac text-xs sm:text-sm py-2 px-5"
+            >
+              Read The Full Governance Blueprint (${book.price.toFixed(2)}) &rarr;
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {/* PART 4 INTERACTIVE DECISION STUDIO: Scenarios & Action Checklists */}
+  <section class="w-full py-20 sm:py-28" id="action">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="max-w-2xl mb-10 space-y-3">
+        <div class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#714cb6]">
+          Part 4 &bull; What To Do About It
+        </div>
+        <h2 class="headline-lg text-[#292827]">
+          Plan for the <span class="text-editorial-serif italic text-[#714cb6] font-normal">range,</span> not the headline.
+        </h2>
+        <p class="text-[16px] text-[#666666] leading-relaxed">
+          Three scenarios distinguish usefully: a quiet ramp, a sharp shock, and a contained leap. Select one to examine the operational timeline.
+        </p>
+      </div>
+
+      {/* Scenario Tabs Strip */}
+      <div class="flex flex-wrap gap-2.5 mb-8" id="scenario-tabs-container">
+        <button 
+          type="button" 
+          class="scenario-pill-btn active px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer bg-[#421d24] text-white" 
+          data-scenario="quiet"
+        >
+          Quiet Ramp
+        </button>
+        <button 
+          type="button" 
+          class="scenario-pill-btn px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer bg-white text-[#292827] border border-[#e3e3e2] hover:border-[#714cb6]" 
+          data-scenario="sharp"
+        >
+          Sharp Shock
+        </button>
+        <button 
+          type="button" 
+          class="scenario-pill-btn px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all cursor-pointer bg-white text-[#292827] border border-[#e3e3e2] hover:border-[#714cb6]" 
+          data-scenario="contained"
+        >
+          Contained Leap
+        </button>
+      </div>
+
+      {/* Dynamic Scenario Details Panel */}
+      <div class="card-paper mb-12" id="scenario-panel">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          <div class="lg:col-span-5 space-y-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-[#714cb6]">Scenario 11</span>
+            <h3 class="text-3xl font-[460] text-[#292827]" id="scenario-display-title">
+              {defaultScenario.title}
+            </h3>
+            <p class="text-sm text-[#666666] font-editorial-serif italic leading-relaxed" id="scenario-display-lead">
+              {defaultScenario.lead}
+            </p>
+          </div>
+
+          <div class="lg:col-span-7 space-y-4" id="scenario-display-timeline">
+            {defaultScenario.items.map(([time, desc]) => (
+              <div class="p-4 rounded-xl bg-[#f2f0eb] border border-[#e3e3e2]">
+                <span class="text-xs font-bold text-[#714cb6] uppercase tracking-wider block mb-1">{time}</span>
+                <p class="text-sm text-[#292827]">{desc}</p>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </div>
+
+      {/* Dual Interactive Action Checklists */}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        {/* For Individuals */}
+        <div class="card-paper space-y-4">
+          <div class="flex items-baseline justify-between border-b border-[#e3e3e2] pb-3">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-[#714cb6]">Chapter 12</span>
+              <h3 class="text-2xl font-[460] text-[#292827] mt-0.5">For Individuals</h3>
+            </div>
+            <span class="text-xs text-[#666666]">Habits that compound</span>
+          </div>
+          <p class="text-sm text-[#666666]">
+            Verification, domain depth, problem framing, and provenance habits remain valuable under every timeline.
+          </p>
+
+          <div class="space-y-2.5 pt-2">
+            {checklists.individual.map((text) => (
+              <label class="flex items-start gap-3 p-3 rounded-lg bg-[#f2f0eb]/70 hover:bg-[#f2f0eb] cursor-pointer transition-colors">
+                <input type="checkbox" class="mt-1 w-4 h-4 rounded text-[#421d24] focus:ring-[#714cb6] cursor-pointer" />
+                <span class="text-xs text-[#292827] leading-relaxed select-none">{text}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* For Organizations */}
+        <div class="card-paper space-y-4">
+          <div class="flex items-baseline justify-between border-b border-[#e3e3e2] pb-3">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-[#714cb6]">Chapter 13</span>
+              <h3 class="text-2xl font-[460] text-[#292827] mt-0.5">For Organizations</h3>
+            </div>
+            <span class="text-xs text-[#666666]">Measure before automate</span>
+          </div>
+          <p class="text-sm text-[#666666]">
+            Define what correct output looks like, map workflows, and assign named accountability.
+          </p>
+
+          <div class="space-y-2.5 pt-2">
+            {checklists.organizational.map((text) => (
+              <label class="flex items-start gap-3 p-3 rounded-lg bg-[#f2f0eb]/70 hover:bg-[#f2f0eb] cursor-pointer transition-colors">
+                <input type="checkbox" class="mt-1 w-4 h-4 rounded text-[#421d24] focus:ring-[#714cb6] cursor-pointer" />
+                <span class="text-xs text-[#292827] leading-relaxed select-none">{text}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  {/* ATMOSPHERIC GRADIENT BANNER */}
+  <section class="w-full gradient-atmosphere-banner border-y border-[#e3e3e2] py-20 sm:py-28 relative overflow-hidden">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center justify-between">
+        <div class="lg:col-span-8 space-y-4 text-left">
+          <div class="text-xs font-bold uppercase tracking-[0.2em] text-[#714cb6]">
+            Conclusion &bull; Living With Uncertainty
+          </div>
+          <h2 class="headline-lg text-[#292827]">
+            The question is not <span class="text-editorial-serif italic text-[#714cb6] font-normal">“will it happen?”</span>
+          </h2>
+          <p class="text-[17px] text-[#292827]/85 max-w-xl leading-relaxed">
+            It is what the question reveals about the present: where verification is thin, where power is concentrated, and what remains useful either way.
+          </p>
+        </div>
+
+        <div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col items-start lg:items-end gap-3">
+          <button 
+            type="button" 
+            data-open-buy-modal
+            class="btn-primary-wine text-base px-7 py-3 w-full sm:w-auto text-center cursor-pointer"
+          >
+            <span>Buy the Book &bull; ${book.price.toFixed(2)} USD</span>
+          </button>
+          
+          <button 
+            type="button" 
+            data-open-modal="method"
+            class="btn-ghost-text text-sm cursor-pointer"
+          >
+            <span>Read How to use this guide &rarr;</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // 3D Book Cover Physics & Tilt Effect
+  const stage = document.getElementById('book-stage');
+  const book = document.getElementById('hero-book-3d');
+
+  if (stage && book) {
+    document.addEventListener('pointermove', (e) => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const rect = stage.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+      if (x > -1.2 && x < 1.2 && y > -1.2 && y < 1.2) {
+        book.style.transform = `rotateY(${-18 + x * 14}deg) rotateX(${5 - y * 12}deg) rotateZ(${2 + x * 3}deg)`;
+      }
+    });
+
+    document.addEventListener('pointerleave', () => {
+      book.style.transform = 'rotateY(-18deg) rotateX(5deg) rotateZ(2deg)';
+    });
+  }
+
+  // Interactive Scenario Switcher
+  const scenarioData: Record<string, { title: string; lead: string; items: [string, string][] }> = {
+    quiet: {
+      title: 'Quiet Ramp',
+      lead: 'Capability arrives, but diffusion takes years. The changes are real, uneven, and easier to adapt to.',
+      items: [
+        ['Months 1–3', 'Software and research teams integrate first; reliability improvements are visible before mass displacement.'],
+        ['Months 4–8', 'Early adopters pull ahead. Organisations begin rewriting workflows around longer autonomous task horizons.'],
+        ['Months 9–12', 'The question shifts from “can it help?” to “where should we still mandate a human signature?”']
+      ]
+    },
+    sharp: {
+      title: 'Sharp Shock',
+      lead: 'A reliability jump removes the verification barrier everywhere at once, making the distributional questions immediate.',
+      items: [
+        ['Months 1–3', 'Cybersecurity moves first. Incident reports rise as defenders and attackers deploy the same new capability.'],
+        ['Months 4–8', 'Layoffs and rapid workflow restructuring arrive in roles where human verification was the last remaining barrier.'],
+        ['Months 9–12', 'Governments shift from observing to containing second-order effects: market power, truth infrastructure, and access.']
+      ]
+    },
+    contained: {
+      title: 'Contained Leap',
+      lead: 'Capability improves inside a small number of organisations, arriving before the labour questions that follow broad diffusion.',
+      items: [
+        ['Months 1–3', 'Frontier firms use the jump for internal research and algorithmic acceleration while external access remains strictly gated.'],
+        ['Months 4–8', 'Capability gaps between frontier firms and the broader economy widen significantly. Model security and compute access become geopolitical priorities.'],
+        ['Months 9–12', 'The key signal is whether progress continues beyond digital software and whether access broadens with responsible governance.']
+      ]
+    }
+  };
+
+  const scenarioPills = document.querySelectorAll('.scenario-pill-btn');
+  const titleEl = document.getElementById('scenario-display-title');
+  const leadEl = document.getElementById('scenario-display-lead');
+  const timelineEl = document.getElementById('scenario-display-timeline');
+
+  scenarioPills.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const scenarioKey = (btn as HTMLElement).dataset.scenario;
+      if (!scenarioKey || !scenarioData[scenarioKey]) return;
+
+      scenarioPills.forEach((p) => {
+        p.classList.remove('bg-[#421d24]', 'text-white');
+        p.classList.add('bg-white', 'text-[#292827]');
+      });
+
+      btn.classList.remove('bg-white', 'text-[#292827]');
+      btn.classList.add('bg-[#421d24]', 'text-white');
+
+      const data = scenarioData[scenarioKey];
+      if (titleEl) titleEl.textContent = data.title;
+      if (leadEl) leadEl.textContent = data.lead;
+      if (timelineEl) {
+        timelineEl.innerHTML = data.items
+          .map(
+            ([time, desc]) => `
+          <div class="p-4 rounded-xl bg-[#f2f0eb] border border-[#e3e3e2]">
+            <span class="text-xs font-bold text-[#714cb6] uppercase tracking-wider block mb-1">${time}</span>
+            <p class="text-sm text-[#292827]">${desc}</p>
+          </div>
+        `
+          )
+          .join('');
+      }
+    });
+  });
+
+  // Interactive Checklist Cross-off Effect
+  document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+    checkbox.addEventListener('change', (e) => {
+      const target = e.target as HTMLInputElement;
+      const textSpan = target.closest('label')?.querySelector('span');
+      if (textSpan) {
+        if (target.checked) {
+          textSpan.classList.add('line-through', 'text-[#666666]', 'opacity-60');
+        } else {
+          textSpan.classList.remove('line-through', 'text-[#666666]', 'opacity-60');
+        }
+      }
+    });
+  });
+</script>

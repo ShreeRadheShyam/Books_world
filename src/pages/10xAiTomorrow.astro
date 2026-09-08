@@ -1,0 +1,9 @@
+---
+import BookLandingTemplate from '../components/book/BookLandingTemplate.astro';
+import { getAllEbooks } from '../data';
+
+const ebooks = getAllEbooks();
+const book = ebooks.find((b) => b.slug === '10xAiTomorrow' || b.landingSlug === '10xAiTomorrow') || ebooks[0];
+---
+
+<BookLandingTemplate book={book} />

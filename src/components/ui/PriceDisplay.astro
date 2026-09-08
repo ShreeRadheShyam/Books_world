@@ -1,0 +1,49 @@
+---
+interface Props {
+  price: number;
+  originalPrice?: number;
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const { price, originalPrice, size = 'md' } = Astro.props;
+
+const discount = originalPrice && originalPrice > price
+  ? Math.round(((originalPrice - price) / originalPrice) * 100)
+  : 0;
+
+const sizeStyles = {
+  sm: {
+    price: 'text-[15px] font-bold text-[#161015]',
+    original: 'text-[12px] text-[#3f383d]/60 line-through',
+    badge: 'text-[10px] px-2 py-0.5'
+  },
+  md: {
+    price: 'text-[20px] font-bold text-[#161015]',
+    original: 'text-[14px] text-[#3f383d]/60 line-through',
+    badge: 'text-[11px] px-2.5 py-0.5'
+  },
+  lg: {
+    price: 'text-[32px] font-bold text-[#161015] tracking-tight',
+    original: 'text-[16px] text-[#3f383d]/60 line-through',
+    badge: 'text-[12px] px-3 py-1'
+  }
+};
+---
+
+<div class="flex items-baseline gap-2">
+  <span class={sizeStyles[size].price}>
+    ${price}
+  </span>
+
+  {originalPrice && originalPrice > price && (
+    <span class={sizeStyles[size].original}>
+      ${originalPrice}
+    </span>
+  )}
+
+  {discount > 0 && (
+    <span class={`rounded-[60px] font-medium bg-[#064c37]/10 text-[#064c37] ${sizeStyles[size].badge}`}>
+      {discount}% OFF
+    </span>
+  )}
+</div>

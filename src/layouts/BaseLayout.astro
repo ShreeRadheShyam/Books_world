@@ -1,0 +1,415 @@
+---
+import '../styles/global.css';
+import Navbar from '../components/navigation/Navbar.astro';
+import Footer from '../components/navigation/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+}
+
+const {
+  title = "What If AI Became 10× Smarter Tomorrow? — A Field Guide",
+  description = "What would actually change, what would not, and what to do either way. 14 chapters, 4 parts, and interactive decision frameworks.",
+  canonical = Astro.url.href
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    {/* Primary Meta Tags */}
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    {/* Google Fonts: Inter & Libre Baskerville for Golden Hour Editorial Feel */}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    {/* Open Graph / Facebook */}
+    <meta property="og:type" content="book" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="BookskiDuniya" />
+
+    {/* Twitter */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+  </head>
+  <body class="bg-[#f2f0eb] text-[#292827] flex flex-col min-h-screen antialiased selection:bg-[#421d24] selection:text-white">
+    
+    <Navbar />
+    
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+
+    <Footer />
+
+    {/* Interactive Chapter Preview Reader Modal */}
+    <div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <article class="modal-container">
+        <button class="absolute top-5 right-5 text-2xl text-[#666666] hover:text-[#292827] focus:outline-none modal-close cursor-pointer" type="button" aria-label="Close dialog">
+          &times;
+        </button>
+        <div class="text-xs font-bold uppercase tracking-wider text-[#714cb6]" id="modal-kicker">
+          Chapter Preview
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-[460] tracking-tight text-[#292827] mt-2 mb-4" id="modal-title">
+          How to read the field guide
+        </h2>
+        <div class="text-[15px] sm:text-[16px] leading-relaxed text-[#292827] space-y-4 font-normal" id="modal-body">
+          <p>
+            This is a field guide, not a prophecy. Each chapter separates capability claims from deployment claims, asks what would falsify a forecast, and turns uncertainty into a decision you can make now.
+          </p>
+          <p>
+            Use the chapter cards as entry points. Read the highlighted idea, open a scenario, and return to the checklist when you are ready to act.
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-3 mt-8 pt-6 border-t border-[#e3e3e2]">
+          <button class="btn-primary-wine text-sm py-2 px-5 h-auto" type="button" data-close-modal>
+            Close preview
+          </button>
+          <button class="btn-outlined-lilac text-sm py-2 px-5" type="button" data-open-buy-modal data-close-modal>
+            Get Full Field Guide ($0.90) &rarr;
+          </button>
+        </div>
+      </article>
+    </div>
+
+    {/* Dedicated Buy The Book Modal with Instant Download */}
+    <div class="modal-backdrop" id="buy-modal" role="dialog" aria-modal="true" aria-labelledby="buy-modal-title">
+      <article class="modal-container max-w-[760px]">
+        <button class="absolute top-5 right-5 text-2xl text-[#666666] hover:text-[#292827] focus:outline-none cursor-pointer" type="button" data-close-buy-modal aria-label="Close dialog">
+          &times;
+        </button>
+
+        <div class="mb-6">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#d4c7ff]/40 text-[#421d24] text-[11px] font-bold tracking-wider uppercase mb-2">
+            Special Launch Offer &bull; 90% OFF
+          </span>
+          <h2 id="buy-modal-title" class="text-2xl sm:text-3xl font-[460] text-[#292827] tracking-tight">
+            Get The Complete 10× AI Field Guide
+          </h2>
+          <p class="text-sm text-[#666666] mt-1">
+            Download the unabridged digital edition instantly in DRM-free EPUB, high-res PDF, and Markdown.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+          
+          {/* Product Preview Box */}
+          <div class="bg-[#261217] text-white p-5 rounded-xl flex flex-col justify-between border border-[#421d24]">
+            <div class="border border-white/20 bg-white/5 rounded-lg p-4">
+              <span class="text-xs font-mono font-bold text-[#d4c7ff] block mb-1 tracking-wider">
+                10× TOMORROW
+              </span>
+              <h4 class="text-base font-semibold leading-snug">
+                What If AI Became 10× Smarter Tomorrow?
+              </h4>
+              <p class="text-xs text-white/70 mt-1">
+                14 Chapters &bull; 4 Parts &bull; Full Field Guide
+              </p>
+            </div>
+
+            <ul class="space-y-2 mt-5 text-xs text-white/80">
+              <li class="flex items-center gap-2">
+                <span class="text-[#d4c7ff] font-bold">✓</span> EPUB, High-Res PDF &amp; Markdown
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-[#d4c7ff] font-bold">✓</span> 3 Scenario Decision Frameworks
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-[#d4c7ff] font-bold">✓</span> Individual &amp; Org Action Checklists
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-[#d4c7ff] font-bold">✓</span> DRM-free — Read anywhere, keep forever
+              </li>
+            </ul>
+          </div>
+
+          {/* Checkout & Instant Download Form */}
+          <div class="flex flex-col justify-center">
+            <div class="bg-white border border-[#e3e3e2] rounded-xl p-4 mb-4">
+              <div class="flex items-baseline justify-between">
+                <div>
+                  <span class="text-sm text-[#666666] line-through mr-1.5">$9.00</span>
+                  <span class="text-3xl font-bold text-[#421d24] tracking-tight">$0.90</span>
+                  <span class="text-xs text-[#666666] font-semibold ml-1">USD</span>
+                </div>
+                <span class="px-2.5 py-0.5 rounded-full bg-[#d4c7ff] text-[#292827] text-xs font-bold">
+                  90% Off
+                </span>
+              </div>
+              <p class="text-xs text-[#666666] mt-1">
+                One-time payment &bull; Instant delivery &bull; Lifetime updates
+              </p>
+            </div>
+
+            <form id="buy-form" class="space-y-3" onsubmit="event.preventDefault(); window.handleBuySubmit();">
+              <div>
+                <label for="buyer-email" class="block text-xs font-bold uppercase tracking-wider text-[#292827] mb-1">
+                  Email address for receipt
+                </label>
+                <input 
+                  type="email" 
+                  id="buyer-email" 
+                  required 
+                  placeholder="reader@example.com"
+                  class="w-full px-3.5 py-2.5 rounded-lg border border-[#e3e3e2] bg-white text-sm text-[#292827] focus:outline-none focus:border-[#714cb6] transition-colors"
+                />
+              </div>
+
+              <button 
+                type="submit" 
+                id="pay-button" 
+                class="w-full btn-primary-wine py-3 text-sm font-semibold flex items-center justify-center gap-2"
+              >
+                <span>Authorize &amp; Download &bull; $0.90</span>
+                <span>&rarr;</span>
+              </button>
+
+              <div class="text-center pt-2 text-[11px] text-[#666666] space-y-1">
+                <p>🔒 256-Bit Encrypted Secure Checkout</p>
+                <p class="text-[10px] text-[#666666]/80">Apple Pay &bull; Google Pay &bull; Visa &bull; Mastercard &bull; PayPal</p>
+              </div>
+            </form>
+
+            <div id="buy-success-box" class="hidden bg-white border border-[#714cb6]/30 rounded-xl p-5 text-center space-y-3">
+              <div class="w-10 h-10 rounded-full bg-[#d4c7ff] text-[#421d24] mx-auto flex items-center justify-center font-bold text-lg">
+                ✓
+              </div>
+              <h3 class="text-lg font-bold text-[#292827]">Payment Approved!</h3>
+              <p id="success-email-target" class="text-xs text-[#666666]">
+                Your downloads are ready below and your receipt has been emailed.
+              </p>
+              <div class="flex gap-2 justify-center pt-2">
+                <button 
+                  type="button" 
+                  class="btn-primary-wine text-xs py-2 px-4 h-auto"
+                  onclick="window.downloadBookFormat('epub')"
+                >
+                  Download .EPUB
+                </button>
+                <button 
+                  type="button" 
+                  class="btn-outlined-lilac text-xs py-2 px-4"
+                  onclick="window.downloadBookFormat('pdf')"
+                >
+                  Download .PDF
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </article>
+    </div>
+
+    {/* Global Interactive Modal & Reader Scripts */}
+    <script is:inline>
+      const chapterData = {
+        method: {
+          kicker: 'How to read the field guide',
+          title: 'Three habits for an uncertain future',
+          body: '<p>This is a field guide, not a prophecy. Separate capability claims from deployment claims. Ask what would falsify the claim. Watch what forecasters do when they are wrong.</p><p>Each chapter closes with a short summary. Boxed sections flag either a key concept or a reality check — a place where the popular version of the story runs ahead of the evidence.</p>'
+        },
+        what10x: {
+          kicker: 'Chapter 1 · Defining the jump',
+          title: 'What “10× smarter” would actually mean',
+          body: '<p>“Smarter” is the wrong word. What matters is a bundle of separable properties: reliability, autonomy, task length, cost, speed, and breadth.</p><p>A genuine ten-fold change could move the frontier, reduce failure, extend the time horizon, or make many instances cheap. Those are completely different futures.</p>'
+        },
+        stands: {
+          kicker: 'Chapter 2 · Defining the jump',
+          title: 'Where AI actually stands today',
+          body: '<p>Today’s most capable systems can write functioning code, answer graduate-level questions, and generate photorealistic images. They still struggle to count, reason reliably about physical space, and recover from mistakes in long tasks.</p><p>The frontier is jagged. A jump may move the edge without smoothing every gap behind it.</p>'
+        },
+        roads: {
+          kicker: 'Chapter 3 · Defining the jump',
+          title: 'Four roads to a sudden leap',
+          body: '<p>More compute, better algorithms, better use of what already exists, and a measurement loop that compounds can all produce a capability jump.</p><p>You do not have to resolve which road wins. You do need to know what evidence would distinguish them.</p>'
+        },
+        science: {
+          kicker: 'Chapter 4 · The morning after',
+          title: 'Science and medicine: the compressed century',
+          body: '<p>Science is the strongest case for optimism. Search-heavy work — computational biology, hypothesis generation, and proofs — could accelerate rapidly.</p><p>But the gap between what is discoverable and what is approvable would widen. Physical experiments, patients, and regulation remain bottlenecks.</p>'
+        },
+        work: {
+          kicker: 'Chapter 5 · The morning after',
+          title: 'Work: the ladder and the floor',
+          body: '<p>Reliability is what converts assistance into automation. Roles that define problems, frame trade-offs, and carry accountability hold their value longer than roles built around checking machine output.</p><p>The ladder rises in some places while the floor drops in others. The distribution matters as much as the average.</p>'
+        },
+        software: {
+          kicker: 'Chapter 6 · The morning after',
+          title: 'Software, security, and infrastructure',
+          body: '<p>This is where a capability jump arrives first because nothing physical slows it. Criminal groups, defenders, and state-associated attackers all gain faster systems.</p><p>The durable response is operational: know what you run, shorten the patch cycle, and plan for prevention to fail.</p>'
+        },
+        truth: {
+          kicker: 'Chapter 7 · The morning after',
+          title: 'Truth, trust, and the information commons',
+          body: '<p>The public is worried about the information environment. A jump changes the cost of making persuasive content and increases the value of provenance.</p><p>Ask where information came from before you ask what it says. Prefer sources that stake a reputation on accuracy.</p>'
+        },
+        control: {
+          kicker: 'Chapter 8 · The hard problems',
+          title: 'The control problem in plain English',
+          body: '<p>The control problem is not whether a machine turns evil. It is whether we can tell whether it is doing what we asked.</p><p>Alignment comprises specification, robustness outside the training distribution, and monitoring. Systems optimise what we measure, not what we meant.</p>'
+        },
+        power: {
+          kicker: 'Chapter 9 · The hard problems',
+          title: 'Who ends up holding the power',
+          body: '<p>Suppose the control problem is solved. The systems do exactly what their operators intend. Who are the operators, and what happens to everyone else?</p><p>The novel risk is entrenchment: capability that lets a small set of actors make the gap between themselves and everyone else harder to contest.</p>'
+        },
+        skeptic: {
+          kicker: 'Chapter 10 · The hard problems',
+          title: 'The skeptic’s chapter',
+          body: '<p>Benchmarks measure what they measure. Time-horizon results are useful, but they are sensitive to task composition and focused mostly on software.</p><p>The skeptical case is not that progress is impossible. It is that the evidence is narrower than the headline, and forecasts should remain falsifiable.</p>'
+        },
+        scenarios: {
+          kicker: 'Chapter 11 · What to do about it',
+          title: 'Three scenarios for the first year',
+          body: '<p>A quiet ramp, a sharp shock, and a contained leap are different ways the same capability could meet the world.</p><p>None requires a correct forecast. Build habits that work across all three: measure reliability, protect provenance, and keep accountable humans in the loop where stakes are high.</p>'
+        },
+        individuals: {
+          kicker: 'Chapter 12 · What to do about it',
+          title: 'For individuals',
+          body: '<p>Verification is a real skill and it is learnable. Optimise for learning rate over title, build domain understanding, and choose work where your decisions have visible results.</p>'
+        },
+        organisations: {
+          kicker: 'Chapter 13 · What to do about it',
+          title: 'For organizations',
+          body: '<p>Ask “at what reliability, and who checks?” Define correct output before automating. Map workflows, name accountability, and treat measurement as the roadmap.</p>'
+        },
+        policymakers: {
+          kicker: 'Chapter 14 · What to do about it',
+          title: 'For policymakers and citizens',
+          body: '<p>Compute visibility, provenance, and public evaluation standards are useful under every timeline. None requires knowing exactly when a capability jump arrives.</p>'
+        }
+      };
+
+      const modal = document.getElementById('modal');
+      const modalTitle = document.getElementById('modal-title');
+      const modalKicker = document.getElementById('modal-kicker');
+      const modalBody = document.getElementById('modal-body');
+      const buyModal = document.getElementById('buy-modal');
+
+      function openModal(key) {
+        const d = chapterData[key] || chapterData.method;
+        if (modalKicker) modalKicker.textContent = d.kicker;
+        if (modalTitle) modalTitle.textContent = d.title;
+        if (modalBody) modalBody.innerHTML = d.body;
+        if (modal) {
+          modal.classList.add('open');
+          document.body.style.overflow = 'hidden';
+        }
+      }
+
+      function closeModal() {
+        if (modal) modal.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      function openBuyModal() {
+        if (buyModal) {
+          buyModal.classList.add('open');
+          document.body.style.overflow = 'hidden';
+          const emailInput = document.getElementById('buyer-email');
+          if (emailInput) setTimeout(() => emailInput.focus(), 150);
+        }
+      }
+
+      function closeBuyModal() {
+        if (buyModal) {
+          buyModal.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+      }
+
+      // Wire triggers
+      document.addEventListener('click', (e) => {
+        const target = e.target;
+        const openModalBtn = target.closest('[data-open-modal]');
+        if (openModalBtn) {
+          openModal(openModalBtn.dataset.openModal);
+          return;
+        }
+
+        const chapterBtn = target.closest('[data-chapter]');
+        if (chapterBtn) {
+          openModal(chapterBtn.dataset.chapter);
+          return;
+        }
+
+        const openBuyBtn = target.closest('[data-open-buy-modal]');
+        if (openBuyBtn) {
+          closeModal();
+          openBuyModal();
+          return;
+        }
+
+        if (target.closest('[data-close-modal]') || target.classList.contains('modal-close')) {
+          closeModal();
+          return;
+        }
+
+        if (target.closest('[data-close-buy-modal]')) {
+          closeBuyModal();
+          return;
+        }
+
+        if (target === modal) closeModal();
+        if (target === buyModal) closeBuyModal();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeModal();
+          closeBuyModal();
+        }
+      });
+
+      window.handleBuySubmit = function() {
+        const email = document.getElementById('buyer-email')?.value || 'reader@example.com';
+        const payBtn = document.getElementById('pay-button');
+        if (payBtn) {
+          payBtn.disabled = true;
+          payBtn.innerHTML = '<span>Authorizing $0.90...</span>';
+        }
+        setTimeout(() => {
+          const form = document.getElementById('buy-form');
+          const successBox = document.getElementById('buy-success-box');
+          const emailTarget = document.getElementById('success-email-target');
+          if (form) form.classList.add('hidden');
+          if (successBox) successBox.classList.remove('hidden');
+          if (emailTarget) emailTarget.textContent = `Your downloads are ready below and your receipt has been sent to ${email}.`;
+        }, 750);
+      };
+
+      window.downloadBookFormat = function(format) {
+        const title = "What If AI Became 10x Smarter Tomorrow? - A Field Guide";
+        const content = `# ${title}\nPrice: $0.90 USD\nFormat: ${format.toUpperCase()}\n\n14 Chapters across 4 Complete Parts:\nPart 1: Defining the Jump\nPart 2: The Morning After\nPart 3: The Hard Problems\nPart 4: What To Do About It\n\nThank you for reading the official field guide!`;
+        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `10x_AI_Field_Guide_${format.toUpperCase()}.${format === 'epub' ? 'epub' : 'pdf'}`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      };
+    </script>
+  </body>
+</html>

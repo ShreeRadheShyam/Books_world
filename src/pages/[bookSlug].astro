@@ -1,0 +1,24 @@
+---
+import BookLandingTemplate from '../components/book/BookLandingTemplate.astro';
+import { getAllEbooks } from '../data';
+import type { Ebook } from '../types';
+
+export function getStaticPaths() {
+  const books = getAllEbooks();
+  // Filter out statically declared routes like 10xAiTomorrow to avoid build warnings
+  return books
+    .filter((book) => book.slug !== '10xAiTomorrow' && book.slug !== '10xAITomorrow')
+    .map((book) => ({
+      params: { bookSlug: book.slug },
+      props: { book }
+    }));
+}
+
+interface Props {
+  book: Ebook;
+}
+
+const { book } = Astro.props;
+---
+
+<BookLandingTemplate book={book} />

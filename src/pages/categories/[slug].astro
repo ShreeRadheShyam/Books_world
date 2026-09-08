@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EbookCard from '../../components/ebook/EbookCard.astro';
+import FeaturedEbookCard from '../../components/ebook/FeaturedEbookCard.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import { getAllCategories, getCategoryBySlug, getEbooksByCategory, getEbookBySlug } from '../../data';
+import { generateBreadcrumbSchema, SITE_URL } from '../../utils/seo';
+
+export function getStaticPaths() {
+  const categories = getAllCategories();
+  return categories.map((category) => ({
+    params: { slug: category.slug },
+    props: { category }
+  }));
+}
+
+const { category } = Astro.props;
+const categoryBooks = getEbooksByCategory(category.slug);
+const allCategories = getAllCategories();
+const otherCategories = allCategories.filter((c) => c.slug !== category.slug).slice(0, 4);
+
+const featuredBook = category.featuredBookSlug 
+  ? getEbookBySlug(category.featuredBookSlug) 
+  : categoryBooks[0];
+
+const remainingBooks = categoryBooks.filter((b) => b.id !== featuredBook?.id);
+
+const breadcrumbs = [
+  { label: 'Categories', href: '/categories' },
+  { label: category.name }
+];
+
+const schema = generateBreadcrumbSchema([
+  { name: 'Home', item: '/' },
+  { name: 'Categories', item: '/categories' },
+  { name: category.name, item: `/categories/${category.slug}` }
+]);
+---
+
+<BaseLayout
+  title={`${category.name} eBooks — BookskiDuniya`}
+  description={category.description}
+  schema={schema}
+>
+  {/* Category Hero Band on Fable Forest (#064c37) */}
+  <section class="w-full bg-[#064c37] text-white py-16 sm:py-20">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-white/80">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+
+      <div class="max-w-3xl space-y-4 mt-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-[60px] text-[12px] font-mono tracking-wider uppercase bg-white/10 text-white border border-white/20">
+          <span>{categoryBooks.length} {categoryBooks.length === 1 ? 'Curated Volume' : 'Curated Volumes'}</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-normal text-white tracking-tight leading-[0.95]">
+          {category.name}
+        </h1>
+
+        <p class="text-[17px] text-white/85 leading-relaxed tracking-[-0.27px]">
+          {category.description}
+        </p>
+
+        {/* Subcategories tags */}
+        <div class="flex flex-wrap items-center gap-2 pt-2">
+          <span class="text-[13px] text-white/70 mr-1">Focus Areas:</span>
+          {category.subcategories.map((sub) => (
+            <a
+              href={`/ebooks?category=${category.slug}&search=${encodeURIComponent(sub)}`}
+              class="text-[12px] px-3.5 py-1 rounded-[60px] bg-white text-[#161015] hover:bg-[#f7f4ee] transition-colors font-medium"
+            >
+              {sub}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Category Catalog Band on Paper Cream (#f7f4ee) */}
+  <section class="w-full bg-[#f7f4ee] text-[#161015] py-16 sm:py-24">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      
+      {/* Featured in Category */}
+      {featuredBook && (
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-serif font-normal text-[#161015] mb-6">
+            Featured in {category.shortName || category.name}
+          </h2>
+          <FeaturedEbookCard ebook={featuredBook} />
+        </div>
+      )}
+
+      {/* Remaining Books */}
+      {remainingBooks.length > 0 && (
+        <div class="space-y-6">
+          <h2 class="text-2xl sm:text-3xl font-serif font-normal text-[#161015]">
+            All {category.shortName || category.name} Volumes ({categoryBooks.length})
+          </h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {remainingBooks.map((book) => (
+              <EbookCard ebook={book} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Related Categories */}
+      <div class="pt-12 border-t border-[#e5e0d8]">
+        <h3 class="text-xl font-serif font-normal text-[#161015] mb-6">
+          Explore Related Categories
+        </h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {otherCategories.map((other) => (
+            <a
+              href={`/categories/${other.slug}`}
+              class="p-4 rounded-[12px] bg-white hover:bg-[#ededed] border border-[#e5e0d8] transition-colors flex items-center justify-between shadow-2xs"
+            >
+              <span class="text-[14px] font-medium text-[#161015]">
+                {other.shortName || other.name}
+              </span>
+              <span class="text-[#3f383d] text-xs">&rarr;</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </section>
+</BaseLayout>

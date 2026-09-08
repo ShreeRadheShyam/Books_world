@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CollectionCard from '../../components/collection/CollectionCard.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import { getAllCollections } from '../../data';
+import { generateBreadcrumbSchema } from '../../utils/seo';
+
+const collections = getAllCollections();
+
+const breadcrumbs = [
+  { label: 'Curated Curricula' }
+];
+
+const schema = generateBreadcrumbSchema([
+  { name: 'Home', item: '/' },
+  { name: 'Collections', item: '/collections' }
+]);
+---
+
+<BaseLayout
+  title="Curated eBook Collections & Reading Curricula — BookskiDuniya"
+  description="Discover thematic reading pathways for Staff+ engineers, AI developers, indie founders, and cloud architects."
+  schema={schema}
+>
+  <div class="w-full bg-[#f7f4ee] py-10 sm:py-16">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <Breadcrumbs items={breadcrumbs} />
+
+      <div class="mb-12 text-center max-w-2xl mx-auto">
+        <span class="text-[12px] font-mono font-bold tracking-widest uppercase text-[#064c37]">
+          Structured Curricula
+        </span>
+        <h1 class="text-4xl sm:text-5xl font-serif font-normal text-[#161015] tracking-tight mt-2 leading-[0.95]">
+          Curated Reading Paths
+        </h1>
+        <p class="text-[16px] text-[#3f383d] mt-3 leading-relaxed tracking-[-0.32px]">
+          Ordered reading sequences designed to take you from foundational understanding to elite execution in specific high-impact disciplines.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {collections.map((collection) => (
+          <CollectionCard collection={collection} />
+        ))}
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>

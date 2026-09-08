@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HorizontalEbookCard from '../../components/ebook/HorizontalEbookCard.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import { getAllCollections, getEbooksForCollection } from '../../data';
+import { generateBreadcrumbSchema, generateCollectionSchema, SITE_URL } from '../../utils/seo';
+
+export function getStaticPaths() {
+  const collections = getAllCollections();
+  return collections.map((collection) => ({
+    params: { slug: collection.slug },
+    props: { collection }
+  }));
+}
+
+const { collection } = Astro.props;
+const books = getEbooksForCollection(collection);
+const otherCollections = getAllCollections().filter((c) => c.slug !== collection.slug).slice(0, 3);
+
+const breadcrumbs = [
+  { label: 'Collections', href: '/collections' },
+  { label: collection.title }
+];
+
+const collectionSchema = generateCollectionSchema(collection, books);
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', item: '/' },
+  { name: 'Collections', item: '/collections' },
+  { name: collection.title, item: `/collections/${collection.slug}` }
+]);
+
+const pageUrl = `${SITE_URL}/collections/${collection.slug}`;
+---
+
+<BaseLayout
+  title={`${collection.title} — Reading Collection`}
+  description={collection.description}
+  canonical={pageUrl}
+  schema={[collectionSchema, breadcrumbSchema]}
+>
+  {/* Collection Hero Band on Storybook Sky (#43a1d7) */}
+  <section class="w-full bg-[#43a1d7] text-[#161015] py-16 sm:py-20">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <Breadcrumbs items={breadcrumbs} />
+
+      <div class="max-w-3xl space-y-4 mt-4">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-[60px] text-[12px] font-mono font-bold tracking-wider uppercase bg-[#161015] text-white">
+          <span>{collection.badge}</span>
+          <span>&bull;</span>
+          <span>{books.length} Books in Sequence</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-normal text-[#161015] tracking-tight leading-[0.95]">
+          {collection.title}
+        </h1>
+
+        <p class="text-[18px] text-[#161015] font-normal leading-relaxed">
+          {collection.tagline}
+        </p>
+
+        <p class="text-[14px] text-[#161015]/80 leading-relaxed pt-1">
+          {collection.description}
+        </p>
+
+        {/* Curator Note */}
+        <div class="mt-4 p-5 rounded-[12px] bg-white border border-[#e5e0d8] text-[13px] text-[#3f383d] flex items-start gap-3 shadow-sm">
+          <div class="leading-relaxed">
+            <strong class="text-[#161015] block mb-0.5 font-sans">Curator's Note on Reading Order:</strong>
+            {collection.curatorNote}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  {/* Curriculum Sequence Band on Paper Cream (#f7f4ee) */}
+  <section class="w-full bg-[#f7f4ee] text-[#161015] py-16 sm:py-24">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      
+      <div class="space-y-6">
+        <div class="flex items-center justify-between pb-3 border-b border-[#e5e0d8]">
+          <h2 class="text-2xl sm:text-3xl font-serif font-normal text-[#161015]">
+            Recommended Progression ({books.length})
+          </h2>
+          <span class="text-[13px] text-[#3f383d] font-mono">
+            Ordered Step 1 to {books.length}
+          </span>
+        </div>
+
+        <div class="space-y-4">
+          {books.map((book, index) => (
+            <div class="relative">
+              <div class="absolute -left-3 top-6 w-7 h-7 rounded-full bg-[#064c37] text-white font-mono text-[13px] font-bold hidden xl:flex items-center justify-center shadow-md z-20">
+                {index + 1}
+              </div>
+              <HorizontalEbookCard ebook={book} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Explore Other Curricula */}
+      <div class="pt-12 border-t border-[#e5e0d8]">
+        <h3 class="text-2xl font-serif font-normal text-[#161015] mb-6">
+          Other Curated Collections
+        </h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {otherCollections.map((other) => (
+            <a
+              href={`/collections/${other.slug}`}
+              class="p-6 rounded-[12px] bg-white hover:bg-[#ededed] border border-[#e5e0d8] transition-colors block shadow-xs"
+            >
+              <span class="text-[10px] font-mono uppercase tracking-wider text-[#064c37] font-bold block mb-1">
+                {other.badge}
+              </span>
+              <h4 class="text-[18px] font-serif font-normal text-[#161015] mb-1 leading-snug">
+                {other.title}
+              </h4>
+              <p class="text-[13px] text-[#3f383d] line-clamp-2">
+                {other.tagline}
+              </p>
+            </a>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </section>
+</BaseLayout>

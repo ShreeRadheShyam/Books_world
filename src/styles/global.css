@@ -1,0 +1,454 @@
+@import "tailwindcss";
+
+@theme {
+  /* Superhuman Colors */
+  --color-midnight-wine: #421d24;
+  --color-royal-violet: #714cb6;
+  --color-lilac-mist: #d4c7ff;
+  --color-deep-lagoon: #0c4243;
+  --color-warm-parchment: #f2f0eb;
+  --color-soft-mist: #e3e3e2;
+  --color-ink-charcoal: #292827;
+  --color-stone-gray: #666666;
+  --color-paper-white: #ffffff;
+
+  /* Typography */
+  --font-super-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-editorial-serif: 'Libre Baskerville', Georgia, Cambria, serif;
+
+  /* Typography Scale */
+  --text-caption: 12px;
+  --text-body-sm: 14px;
+  --text-body: 16px;
+  --text-label-bold: 19px;
+  --text-subheading: 26px;
+  --text-heading-sm: 28px;
+  --text-heading-lg: 49px;
+  --text-display: 64px;
+
+  /* Spacing */
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-28: 28px;
+  --spacing-32: 32px;
+  --spacing-36: 36px;
+  --spacing-40: 40px;
+  --spacing-48: 48px;
+  --spacing-64: 64px;
+  --spacing-80: 80px;
+  --spacing-96: 96px;
+
+  /* Border Radius */
+  --radius-tabs: 8px;
+  --radius-cards: 16px;
+  --radius-pills: 999px;
+  --radius-buttons: 16px;
+  --radius-small-buttons: 8px;
+  --radius-floating-cards: 16px;
+
+  /* Shadows */
+  --shadow-subtle: rgb(113, 76, 182) 0px 0px 0px 1px inset;
+}
+
+:root {
+  /* Superhuman Token References */
+  --color-midnight-wine: #421d24;
+  --color-royal-violet: #714cb6;
+  --color-lilac-mist: #d4c7ff;
+  --color-deep-lagoon: #0c4243;
+  --color-warm-parchment: #f2f0eb;
+  --color-soft-mist: #e3e3e2;
+  --color-ink-charcoal: #292827;
+  --color-stone-gray: #666666;
+  --color-paper-white: #ffffff;
+
+  --font-super-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-editorial-serif: 'Libre Baskerville', Georgia, Cambria, serif;
+
+  --surface-parchment-canvas: #f2f0eb;
+  --surface-paper-card: #ffffff;
+  --surface-lilac-wash: #d4c7ff;
+  --surface-deep-lagoon-band: #0c4243;
+  --surface-wine-ground: #421d24;
+
+  --page-max-width: 1200px;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+  background-color: var(--color-warm-parchment);
+  color: var(--color-ink-charcoal);
+  font-family: var(--font-super-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-warm-parchment);
+  color: var(--color-ink-charcoal);
+  font-family: var(--font-super-sans);
+  overflow-x: hidden;
+}
+
+/* Headings at weight 460 — the Superhuman signature voice */
+.headline-460 {
+  font-weight: 460;
+  font-variation-settings: 'wght' 460;
+  color: var(--color-ink-charcoal);
+}
+
+.headline-display {
+  font-size: clamp(42px, 5.5vw, 64px);
+  font-weight: 460;
+  font-variation-settings: 'wght' 460;
+  line-height: 0.96;
+  letter-spacing: -0.028em;
+  color: var(--color-ink-charcoal);
+}
+
+.headline-lg {
+  font-size: clamp(34px, 4vw, 49px);
+  font-weight: 460;
+  font-variation-settings: 'wght' 460;
+  line-height: 1.2;
+  letter-spacing: -0.027em;
+  color: var(--color-ink-charcoal);
+}
+
+.headline-sm {
+  font-size: clamp(24px, 2.5vw, 28px);
+  font-weight: 460;
+  font-variation-settings: 'wght' 460;
+  line-height: 1.14;
+  letter-spacing: -0.022em;
+  color: var(--color-ink-charcoal);
+}
+
+.text-editorial-serif {
+  font-family: var(--font-editorial-serif);
+}
+
+/* Selection Color */
+::selection {
+  background-color: var(--color-midnight-wine);
+  color: #ffffff;
+}
+
+/* Primary Action Button: #421d24, text #ffffff, 16px radius, height 48px */
+.btn-primary-wine {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--color-midnight-wine);
+  color: #ffffff;
+  font-family: var(--font-super-sans);
+  font-size: 15px;
+  font-weight: 460;
+  font-variation-settings: 'wght' 460;
+  border-radius: 16px;
+  padding: 12px 24px;
+  height: 48px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primary-wine:hover {
+  background-color: #32161b;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(66, 29, 36, 0.24);
+}
+
+/* Outlined Light Button: Lilac Mist #d4c7ff, text #292827, border 1px #292827, radius 8px */
+.btn-outlined-lilac {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background-color: var(--color-lilac-mist);
+  color: var(--color-ink-charcoal);
+  border: 1px solid var(--color-ink-charcoal);
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: 460;
+  font-variation-settings: 'wght' 460;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-outlined-lilac:hover {
+  background-color: #c7b6fd;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(113, 76, 182, 0.15);
+}
+
+/* Ghost Text Button: transparent, #292827, no border */
+.btn-ghost-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: var(--color-ink-charcoal);
+  border: none;
+  padding: 0;
+  font-size: 15px;
+  font-weight: 460;
+  font-variation-settings: 'wght' 460;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-ghost-text:hover {
+  color: var(--color-royal-violet);
+  text-decoration: underline;
+}
+
+/* Link with Underline: #714cb6 Royal Violet, hover underline */
+.link-royal-violet {
+  color: var(--color-royal-violet);
+  text-decoration: none;
+  font-weight: 460;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.link-royal-violet:hover {
+  text-decoration: underline;
+}
+
+/* Elevated Paper Card: #ffffff on parchment canvas, radius 16px, border 1px #e3e3e2 */
+.card-paper {
+  background-color: var(--color-paper-white);
+  border: 1px solid var(--color-soft-mist);
+  border-radius: 16px;
+  padding: 24px;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+}
+
+.card-paper:hover {
+  border-color: #c5c5c3;
+  transform: translateY(-3px);
+}
+
+/* Floating Translucent Product UI Card */
+.card-floating-glass {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 16px;
+  padding: 16px 20px;
+  box-shadow: 0 16px 40px -10px rgba(41, 40, 39, 0.12);
+}
+
+/* Atmospheric Gradient Banner */
+.gradient-atmosphere-banner {
+  position: relative;
+  background: radial-gradient(circle at 68% 50%, rgba(113, 76, 182, 0.22) 0%, transparent 50%),
+              radial-gradient(circle at 93% 50%, rgba(67, 161, 215, 0.25) 0%, transparent 45%),
+              radial-gradient(circle at 50% 98%, rgba(212, 199, 255, 0.35) 0%, transparent 55%),
+              radial-gradient(circle at 50% 75%, rgba(109, 199, 227, 0.2) 0%, transparent 40%),
+              #f8f6f0;
+}
+
+/* Deep Lagoon Dark Section */
+.dark-lagoon-band {
+  background-color: var(--color-deep-lagoon);
+  color: #ffffff;
+}
+
+/* 3D Interactive Book Cover Stage */
+.book-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  perspective: 1600px;
+  width: 100%;
+}
+
+.book-shadow {
+  position: absolute;
+  bottom: 8%;
+  width: 75%;
+  height: 38px;
+  background: rgba(41, 40, 39, 0.28);
+  filter: blur(24px);
+  border-radius: 50%;
+  transform: rotate(-5deg);
+}
+
+.book-3d {
+  position: relative;
+  width: min(340px, 80vw);
+  aspect-ratio: 2 / 3;
+  transform-style: preserve-3d;
+  transform: rotateY(-18deg) rotateX(5deg) rotateZ(2deg);
+  transition: transform 0.15s ease-out;
+  filter: drop-shadow(20px 25px 28px rgba(41, 40, 39, 0.22));
+}
+
+.book-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  padding: 16% 12% 12%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-radius: 3px 10px 10px 3px;
+  background: linear-gradient(145deg, #261217 0%, #421d24 50%, #1a0b0e 100%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 0 0 6px rgba(255, 255, 255, 0.04), inset -16px 0 24px rgba(0, 0, 0, 0.35);
+  backface-visibility: hidden;
+  color: #ffffff;
+}
+
+.book-face::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(212, 199, 255, 0.35);
+  pointer-events: none;
+}
+
+.book-face::after {
+  content: "";
+  position: absolute;
+  inset: 28px;
+  border: 1px solid rgba(212, 199, 255, 0.18);
+  pointer-events: none;
+}
+
+.book-spine {
+  position: absolute;
+  left: -20px;
+  top: 2px;
+  width: 20px;
+  height: 98%;
+  transform-origin: right center;
+  transform: rotateY(90deg);
+  background: linear-gradient(90deg, #1b0c0e, #36171d);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.book-pages {
+  position: absolute;
+  right: -13px;
+  top: 6px;
+  width: 17px;
+  height: 95%;
+  transform-origin: left center;
+  transform: rotateY(-78deg);
+  background: repeating-linear-gradient(0deg, #e9e7df 0 3px, #d5d3cb 3px 4px);
+  box-shadow: 3px 0 8px rgba(0, 0, 0, 0.18);
+}
+
+/* Orbital Rings for Hero 3D Stage */
+.orbit-ring {
+  position: absolute;
+  width: 115%;
+  height: 44%;
+  border: 1px solid rgba(113, 76, 182, 0.28);
+  border-radius: 50%;
+  transform: rotateX(62deg) rotateZ(-18deg);
+  animation: orbit-spin 16s linear infinite;
+  pointer-events: none;
+}
+
+.orbit-ring::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  right: 12%;
+  top: 20%;
+  border-radius: 50%;
+  background: var(--color-royal-violet);
+  box-shadow: 0 0 20px 4px rgba(113, 76, 182, 0.4);
+}
+
+.orbit-ring.two {
+  width: 90%;
+  height: 75%;
+  transform: rotateY(65deg) rotateZ(25deg);
+  opacity: 0.35;
+  border-color: rgba(212, 199, 255, 0.4);
+  animation-direction: reverse;
+  animation-duration: 22s;
+}
+
+@keyframes orbit-spin {
+  to {
+    transform: rotateX(62deg) rotateZ(342deg);
+  }
+}
+
+/* Modals */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(41, 40, 39, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.modal-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-container {
+  position: relative;
+  width: min(720px, 95vw);
+  max-height: min(85vh, 760px);
+  overflow-y: auto;
+  padding: clamp(24px, 4vw, 36px);
+  background: var(--color-warm-parchment);
+  border-radius: 16px;
+  border: 1px solid var(--color-soft-mist);
+  box-shadow: 0 30px 80px rgba(41, 40, 39, 0.3);
+  transform: translateY(16px) scale(0.98);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-backdrop.open .modal-container {
+  transform: none;
+}
+
+/* Custom Scrollbar for Superhuman Warm Theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-warm-parchment);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d8d6ce;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c3bfb5;
+}

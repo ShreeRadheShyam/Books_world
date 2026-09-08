@@ -1,0 +1,71 @@
+---
+import type { Ebook } from '../../types';
+import { getAuthorById } from '../../data';
+import BookCover3D from './BookCover3D.astro';
+import RatingStars from '../ui/RatingStars.astro';
+import PriceDisplay from '../ui/PriceDisplay.astro';
+import Badge from '../ui/Badge.astro';
+
+interface Props {
+  ebook: Ebook;
+}
+
+const { ebook } = Astro.props;
+const author = getAuthorById(ebook.authorId);
+---
+
+<article class="group relative flex flex-col sm:flex-row items-center gap-6 bg-[#f7f4ee] rounded-[12px] p-6 transition-all duration-300 hover:shadow-[0_4px_20px_0_rgba(0,0,0,0.08)]">
+  
+  {/* Cover sitting directly on cream */}
+  <div class="shrink-0">
+    <a href={`/ebooks/${ebook.slug}`} class="block">
+      <BookCover3D ebook={ebook} size="sm" />
+    </a>
+  </div>
+
+  {/* Information */}
+  <div class="flex-1 min-w-0 flex flex-col justify-between h-full">
+    <div>
+      <div class="flex items-center gap-2 flex-wrap mb-2">
+        {ebook.bestseller && <Badge variant="bestseller">Bestseller</Badge>}
+        {ebook.newRelease && <Badge variant="new">New</Badge>}
+        <span class="text-[12px] text-[#064c37] font-semibold uppercase tracking-wider">
+          {ebook.category}
+        </span>
+      </div>
+
+      <h3 class="text-[22px] font-serif font-normal text-[#161015] group-hover:text-[#064c37] transition-colors leading-[1.2]">
+        <a href={`/ebooks/${ebook.slug}`}>
+          {ebook.title}
+        </a>
+      </h3>
+
+      <p class="text-[13px] text-[#3f383d] mt-1.5 line-clamp-2 leading-relaxed tracking-[-0.2px]">
+        {ebook.subtitle}
+      </p>
+
+      {author && (
+        <div class="flex items-center gap-2 mt-2 text-[13px] text-[#3f383d]/80">
+          <span>By</span>
+          <a href={`/authors/${author.slug}`} class="font-medium text-[#161015] hover:underline">
+            {author.name}
+          </a>
+        </div>
+      )}
+    </div>
+
+    <div class="mt-5 pt-3 border-t border-[#e5e0d8] flex items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <PriceDisplay price={ebook.price} originalPrice={ebook.originalPrice} size="sm" />
+        <RatingStars rating={ebook.rating} reviewCount={ebook.reviewCount} size="sm" />
+      </div>
+
+      <a
+        href={`/ebooks/${ebook.slug}`}
+        class="inline-flex items-center px-4 py-2 rounded-[60px] bg-[#292229] hover:bg-[#161015] text-white text-[13px] font-medium tracking-[-0.25px] transition-all shadow-sm"
+      >
+        View Volume &rarr;
+      </a>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,66 @@
+---
+interface Chapter {
+  chapterNumber: number;
+  title: string;
+  description?: string;
+  pages?: number;
+}
+
+interface Props {
+  chapters: Chapter[];
+  totalPages: number;
+}
+
+const { chapters, totalPages } = Astro.props;
+---
+
+<div class="rounded-[12px] bg-[#f7f4ee] p-6 sm:p-8">
+  <div class="flex items-center justify-between pb-4 mb-6 border-b border-[#e5e0d8]">
+    <div>
+      <h3 class="text-2xl font-serif font-normal text-[#161015]">Table of Contents</h3>
+      <p class="text-[13px] text-[#3f383d] mt-1 tracking-[-0.2px]">
+        {chapters.length} Chapters &bull; {totalPages} Total Pages
+      </p>
+    </div>
+
+    <span class="text-[12px] font-mono text-[#064c37] font-semibold">
+      Complete Syllabus
+    </span>
+  </div>
+
+  <div class="space-y-3">
+    {chapters.map((chapter) => (
+      <details class="group rounded-[8px] bg-white border border-[#e5e0d8] transition-all overflow-hidden">
+        <summary class="flex items-center justify-between p-4 cursor-pointer select-none list-none">
+          <div class="flex items-center gap-3.5 min-w-0">
+            <span class="w-7 h-7 rounded-[60px] bg-[#f7f4ee] text-[#161015] text-[12px] font-mono font-medium flex items-center justify-center shrink-0 border border-[#e5e0d8]">
+              {chapter.chapterNumber.toString().padStart(2, '0')}
+            </span>
+            <span class="text-[15px] font-medium text-[#161015] group-hover:text-[#064c37] transition-colors truncate tracking-[-0.25px]">
+              {chapter.title}
+            </span>
+          </div>
+
+          <div class="flex items-center gap-3 shrink-0 ml-2">
+            {chapter.pages && (
+              <span class="text-[12px] text-[#3f383d]/70 font-mono hidden sm:inline">
+                {chapter.pages} pp
+              </span>
+            )}
+            <svg class="w-4 h-4 text-[#3f383d] group-open:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </summary>
+
+        <div class="px-5 pb-4 pt-1 text-[13px] text-[#3f383d] border-t border-[#e5e0d8] bg-[#f7f4ee]/60 leading-relaxed">
+          {chapter.description ? (
+            <p>{chapter.description}</p>
+          ) : (
+            <p>Comprehensive coverage of key mental models, architectural case studies, and practical production patterns.</p>
+          )}
+        </div>
+      </details>
+    ))}
+  </div>
+</div>

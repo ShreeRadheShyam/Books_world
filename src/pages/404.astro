@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getAllCategories } from '../data';
+
+const categories = getAllCategories().slice(0, 6);
+---
+
+<BaseLayout
+  title="Page Not Found — BookskiDuniya"
+  description="The volume or discovery page you are looking for might have been moved or does not exist."
+>
+  <div class="w-full bg-[#f7f4ee] py-24 sm:py-32">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+      
+      <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white border border-[#e5e0d8] text-[#161015] mx-auto shadow-sm">
+        <span class="text-3xl font-serif">404</span>
+      </div>
+
+      <div class="space-y-3">
+        <h1 class="text-4xl sm:text-6xl font-serif font-normal text-[#161015] tracking-tight leading-[0.95]">
+          Lost in the stacks?
+        </h1>
+        <p class="text-[16px] text-[#3f383d] max-w-md mx-auto leading-relaxed tracking-[-0.32px]">
+          The volume, author profile, or page you were seeking doesn't exist or may have been relocated.
+        </p>
+      </div>
+
+      {/* Stadium-Pill Action Buttons */}
+      <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+        <a
+          href="/"
+          class="btn-pill-dark"
+        >
+          <span>Return Home</span>
+          <span class="ml-2">&rarr;</span>
+        </a>
+        <a
+          href="/ebooks"
+          class="px-7 py-3.5 rounded-[60px] bg-white hover:bg-[#ededed] text-[#161015] font-medium text-[16px] transition-all border border-[#e5e0d8] shadow-sm tracking-[-0.32px]"
+        >
+          Browse All Volumes
+        </a>
+        <button
+          type="button"
+          data-open-search
+          class="px-7 py-3.5 rounded-[60px] bg-white hover:bg-[#ededed] text-[#161015] font-medium text-[16px] transition-all border border-[#e5e0d8] shadow-sm tracking-[-0.32px]"
+        >
+          Search Catalog ⌘K
+        </button>
+      </div>
+
+      {/* Popular Categories Shortcut */}
+      <div class="pt-16 border-t border-[#e5e0d8] max-w-xl mx-auto">
+        <p class="text-[12px] font-mono uppercase tracking-wider text-[#3f383d]/80 mb-4">
+          Explore Popular Disciplines
+        </p>
+        <div class="flex flex-wrap justify-center gap-2">
+          {categories.map((cat) => (
+            <a
+              href={`/categories/${cat.slug}`}
+              class="text-[13px] px-4 py-1.5 rounded-[60px] bg-white hover:bg-[#292229] hover:text-white text-[#161015] border border-[#e5e0d8] transition-colors"
+            >
+              {cat.shortName || cat.name}
+            </a>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,77 @@
+---
+---
+
+<section class="pb-24 lg:pb-32">
+  <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+    
+    {/* Elevated Feature Card: #ffffff, radius 48px, shadow 0 4px 20px rgba(0,0,0,0.4) */}
+    <div class="card-elevated-feature rounded-[48px] bg-white p-8 sm:p-14 text-center shadow-[0_4px_24px_0_rgba(0,0,0,0.18)] max-w-4xl mx-auto">
+      
+      <div class="max-w-2xl mx-auto space-y-4">
+        <span class="inline-flex items-center px-3.5 py-1 rounded-[60px] text-[12px] font-mono uppercase tracking-wider bg-[#f7f4ee] text-[#064c37] font-semibold border border-[#e5e0d8]">
+          The Weekend Reader
+        </span>
+
+        <h2 class="text-3xl sm:text-5xl font-serif font-normal text-[#161015] tracking-tight leading-[1.05]">
+          Curated independent reading, delivered Saturdays.
+        </h2>
+
+        <p class="text-[16px] text-[#3f383d] leading-relaxed tracking-[-0.32px]">
+          Every Saturday morning, we review three outstanding independent technical eBooks, share unreleased chapters, and interview verified authors. Zero spam, ever.
+        </p>
+
+        {/* Email Signup Form with Stadium Pill Controls */}
+        <form id="newsletter-form" class="pt-4 max-w-md mx-auto flex flex-col sm:flex-row gap-3">
+          <input
+            id="newsletter-email"
+            type="email"
+            required
+            placeholder="Enter your email address..."
+            class="flex-1 px-5 py-3.5 rounded-[60px] bg-[#f7f4ee] border border-[#e5e0d8] text-[15px] text-[#161015] placeholder-[#3f383d]/50 focus:outline-none focus:ring-2 focus:ring-[#064c37] tracking-[-0.25px]"
+          />
+          <button
+            type="submit"
+            id="newsletter-submit-btn"
+            class="btn-pill-dark px-7 py-3.5 text-[15px] shrink-0"
+          >
+            Subscribe
+          </button>
+        </form>
+
+        {/* Submission Feedback */}
+        <p id="newsletter-success" class="hidden text-[14px] font-medium text-[#064c37] pt-2">
+          &check; Welcome to the club. Check your inbox this Saturday for edition #1.
+        </p>
+
+        <p class="text-[13px] text-[#3f383d]/70 pt-2 tracking-[-0.2px]">
+          Read by over 14,000 Staff engineers, solopreneurs, and architects.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('newsletter-form') as HTMLFormElement | null;
+  const emailInput = document.getElementById('newsletter-email') as HTMLInputElement | null;
+  const successMsg = document.getElementById('newsletter-success');
+  const submitBtn = document.getElementById('newsletter-submit-btn') as HTMLButtonElement | null;
+
+  if (form && emailInput && successMsg && submitBtn) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!emailInput.value) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Subscribing...';
+
+      setTimeout(() => {
+        form.classList.add('hidden');
+        successMsg.classList.remove('hidden');
+      }, 500);
+    });
+  }
+</script>

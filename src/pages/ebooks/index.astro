@@ -1,0 +1,144 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAllEbooks } from '../../data';
+
+const ebooks = getAllEbooks();
+const book = ebooks[0];
+---
+
+<BaseLayout
+  title="Field Guide Catalog — BookskiDuniya"
+  description="Exclusively featuring 'What If AI Became 10× Smarter Tomorrow?' — A comprehensive field guide on capability bounds, governance, and operational resilience."
+>
+  <div class="w-full bg-[#f2f0eb] py-12 sm:py-20">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      
+      {/* Header */}
+      <div class="max-w-2xl mb-12 space-y-3">
+        <span class="text-xs font-bold uppercase tracking-[0.2em] text-[#714cb6]">
+          Official Publication Catalog
+        </span>
+        <h1 class="headline-lg text-[#292827]">
+          The 10× AI <span class="text-editorial-serif italic text-[#714cb6] font-normal">Field Guide</span>
+        </h1>
+        <p class="text-[16px] text-[#666666] leading-relaxed">
+          BookskiDuniya exclusively curates and distributes the definitive four-part field guide on frontier AI capability leaps, governance, and operational action frameworks.
+        </p>
+      </div>
+
+      {/* Featured Book Card */}
+      {book && (
+        <article class="card-paper p-8 sm:p-12">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            {/* Left: Book Cover Presentation */}
+            <div class="lg:col-span-4 flex justify-center">
+              <div 
+                class="w-full max-w-[280px] aspect-[2/3] rounded-xl p-6 flex flex-col justify-between text-white shadow-xl cursor-pointer hover:scale-102 transition-transform"
+                style="background: linear-gradient(145deg, #261217 0%, #421d24 60%, #160a0c 100%); border: 1px solid rgba(212, 199, 255, 0.3);"
+                data-open-buy-modal
+              >
+                <div class="text-[10px] font-mono tracking-widest text-[#d4c7ff] uppercase">
+                  FIELD GUIDE / 01
+                </div>
+
+                <div class="space-y-2 text-center my-auto">
+                  <span class="text-[11px] font-mono uppercase tracking-wider text-white/70 block">
+                    WHAT IF AI BECAME
+                  </span>
+                  <h3 class="text-2xl font-bold tracking-tight text-white leading-none">
+                    10<span class="text-[#d4c7ff]">×</span> SMARTER
+                  </h3>
+                  <span class="text-[11px] font-mono uppercase tracking-wider text-white/70 block">
+                    TOMORROW?
+                  </span>
+                  <div class="w-8 h-0.5 bg-[#d4c7ff] mx-auto my-2"></div>
+                  <p class="text-[10px] text-editorial-serif italic text-white/80">
+                    {book.subtitle}
+                  </p>
+                </div>
+
+                <div class="flex items-center justify-between text-[10px] font-mono text-[#d4c7ff] pt-3 border-t border-white/20">
+                  <span>14 CHAPTERS</span>
+                  <span>$0.90 USD</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right: Book Details & CTAs */}
+            <div class="lg:col-span-8 space-y-5">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full bg-[#d4c7ff] text-[#292827] text-xs font-bold">
+                  Launch Special &bull; $0.90
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-[#e3e3e2] text-[#292827] text-xs font-[460]">
+                  DRM-Free Edition
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-[#e3e3e2] text-[#292827] text-xs font-[460]">
+                  184 Pages
+                </span>
+              </div>
+
+              <h2 class="text-3xl sm:text-4xl font-[460] text-[#292827] tracking-tight leading-tight">
+                {book.title}
+              </h2>
+
+              <p class="text-[15px] text-[#666666] leading-relaxed">
+                {book.description}
+              </p>
+
+              <div class="space-y-2 pt-2">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-[#292827]">
+                  What's included in the download:
+                </h4>
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[#292827]">
+                  <li class="flex items-center gap-2">
+                    <span class="text-[#714cb6] font-bold">✓</span> Complete 14 Chapters &amp; 4 Parts
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span class="text-[#714cb6] font-bold">✓</span> High-Resolution PDF format
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span class="text-[#714cb6] font-bold">✓</span> Mobile-optimized .EPUB file
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span class="text-[#714cb6] font-bold">✓</span> 3 Scenario Decision Frameworks
+                  </li>
+                </ul>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-4 pt-4 border-t border-[#e3e3e2]">
+                <button 
+                  type="button" 
+                  data-open-buy-modal
+                  class="btn-primary-wine text-sm py-2.5 px-6 h-auto"
+                >
+                  <span>Buy Field Guide &bull; $0.90</span>
+                  <span>&rarr;</span>
+                </button>
+
+                <a 
+                  href={`/ebooks/${book.slug}`}
+                  class="btn-outlined-lilac text-sm py-2 px-5"
+                >
+                  View Interactive Overview
+                </a>
+
+                <button 
+                  type="button" 
+                  data-open-modal="method"
+                  class="btn-ghost-text text-sm"
+                >
+                  Read Sample Excerpt &nearr;
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+        </article>
+      )}
+
+    </div>
+  </div>
+</BaseLayout>

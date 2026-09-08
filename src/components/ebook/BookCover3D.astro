@@ -1,0 +1,111 @@
+---
+import type { Ebook } from '../../types';
+
+interface Props {
+  ebook: Ebook;
+  size?: 'sm' | 'md' | 'lg';
+  priority?: boolean;
+}
+
+const { ebook, size = 'md' } = Astro.props;
+
+const dimensions = {
+  sm: 'w-[130px] h-[190px]',
+  md: 'w-[190px] h-[275px] sm:w-[210px] sm:h-[300px]',
+  lg: 'w-[260px] h-[370px] sm:w-[310px] sm:h-[440px]'
+};
+
+const fontSizes = {
+  sm: {
+    category: 'text-[9px] tracking-wider',
+    title: 'text-[13px] font-serif font-normal leading-tight line-clamp-2',
+    author: 'text-[9px]',
+    edition: 'hidden'
+  },
+  md: {
+    category: 'text-[10px] tracking-wider',
+    title: 'text-[17px] sm:text-[19px] font-serif font-normal leading-[1.1] line-clamp-3',
+    author: 'text-[11px]',
+    edition: 'text-[9px]'
+  },
+  lg: {
+    category: 'text-[12px] tracking-widest',
+    title: 'text-[24px] sm:text-[28px] font-serif font-normal leading-[1.05]',
+    author: 'text-[13px]',
+    edition: 'text-[10px]'
+  }
+};
+
+const currentDim = dimensions[size];
+const currentFont = fontSizes[size];
+
+// Classic editorial clothbound cover palettes matching Fable philosophy
+const coverPalettes: Record<string, { bg: string; text: string; accent: string; spine: string }> = {
+  'system-design': { bg: 'bg-[#10243e]', text: 'text-[#f7f4ee]', accent: '#d4af37', spine: '#0b192c' },
+  'ai-machine-learning': { bg: 'bg-[#22172a]', text: 'text-[#f7f4ee]', accent: '#e0a96d', spine: '#170f1e' },
+  'micro-saas-indie': { bg: 'bg-[#5c2c16]', text: 'text-[#f7f4ee]', accent: '#f3c68f', spine: '#411e0e' },
+  'product-design-ux': { bg: 'bg-[#4a1c2d]', text: 'text-[#f7f4ee]', accent: '#f7d1cd', spine: '#35121f' },
+  'cloud-devops': { bg: 'bg-[#0f2e2b]', text: 'text-[#f7f4ee]', accent: '#8fd3c5', spine: '#081e1c' },
+  'career-leadership': { bg: 'bg-[#1c2230]', text: 'text-[#f7f4ee]', accent: '#c4b5fd', spine: '#131822' },
+  'developer-productivity': { bg: 'bg-[#3b3223]', text: 'text-[#f7f4ee]', accent: '#fde047', spine: '#272116' },
+  'web-development': { bg: 'bg-[#064c37]', text: 'text-[#f7f4ee]', accent: '#a7f3d0', spine: '#043425' },
+  'default': { bg: 'bg-[#292229]', text: 'text-[#f7f4ee]', accent: '#d4af37', spine: '#1a151a' }
+};
+
+const palette = coverPalettes[ebook.categorySlug] || coverPalettes['default'];
+---
+
+<div class="inline-block select-none relative group/cover">
+  <div
+    class={`book-tile-art ${currentDim} rounded-r-[6px] rounded-l-[2px] overflow-hidden relative flex flex-col justify-between p-4 sm:p-5 ${palette.bg} ${palette.text} shadow-[0_4px_14px_0_rgba(0,0,0,0.22)]`}
+  >
+    {/* Book spine highlight */}
+    <div class="book-spine-fable"></div>
+
+    {/* Warm paper reflection sheen */}
+    <div class="book-sheen-fable"></div>
+
+    {/* Top Label: Category / Subcategory in tight tracking */}
+    <div class="relative z-10 flex items-center justify-between border-b border-white/15 pb-2">
+      <span class={`font-mono uppercase ${currentFont.category} text-white/75`}>
+        {ebook.subcategory}
+      </span>
+      <span class={`font-mono uppercase text-white/60 ${currentFont.edition}`}>
+        FABLE EDITORIAL
+      </span>
+    </div>
+
+    {/* Center Title in Warm Serif (Fraunces / Heldane style) */}
+    <div class="relative z-10 my-auto py-2 text-center">
+      {/* Decorative Gold Leaf Emblem */}
+      <div class="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-2.5 rounded-full border border-white/20 flex items-center justify-center text-white/90">
+        <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+        </svg>
+      </div>
+
+      <h3 class={`${currentFont.title} text-[#f7f4ee] drop-shadow-xs tracking-tight`}>
+        {ebook.title}
+      </h3>
+
+      {size === 'lg' && (
+        <p class="text-[12px] text-white/75 font-sans mt-2 line-clamp-2 max-w-[240px] mx-auto tracking-[-0.2px]">
+          {ebook.subtitle}
+        </p>
+      )}
+    </div>
+
+    {/* Bottom Bar: Author Attribution */}
+    <div class="relative z-10 pt-2 border-t border-white/15 flex items-center justify-between">
+      <span class={`font-sans font-medium text-white/90 ${currentFont.author} tracking-[-0.2px]`}>
+        {ebook.authorId.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+      </span>
+      <span class="text-[9px] font-mono text-white/60">
+        {ebook.pages} pp
+      </span>
+    </div>
+
+    {/* Paper stack depth on the right edge */}
+    <div class="book-page-edge-fable"></div>
+  </div>
+</div>

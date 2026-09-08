@@ -1,0 +1,229 @@
+---
+import { ebooks } from '../../data/ebooks';
+import { authors } from '../../data/authors';
+
+// Pre-map author names for instant search
+const searchIndex = ebooks.map(b => {
+  const author = authors.find(a => a.id === b.authorId);
+  return {
+    id: b.id,
+    slug: b.slug,
+    title: b.title,
+    subtitle: b.subtitle,
+    category: b.category,
+    authorName: author ? author.name : '',
+    price: b.price,
+    rating: b.rating,
+    tags: b.tags,
+    badge: b.bestseller ? 'Bestseller' : b.newRelease ? 'New' : b.featured ? 'Featured' : ''
+  };
+});
+---
+
+<div
+  id="search-modal"
+  class="fixed inset-0 z-50 hidden items-start justify-center p-4 sm:p-6 md:p-20 overflow-y-auto bg-black/60 backdrop-blur-xs transition-opacity"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Search eBooks"
+>
+  <div class="relative w-full max-w-2xl rounded-[16px] bg-[#f7f4ee] border border-[#ededed] shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+    
+    {/* Search Input Bar */}
+    <div class="relative flex items-center border-b border-[#e5e0d8] px-5 py-4 bg-white">
+      <svg class="w-5 h-5 text-[#3f383d] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <input
+        id="search-modal-input"
+        type="search"
+        placeholder="Search titles, authors, topics (e.g. System Design, RAG, SaaS)..."
+        class="w-full bg-transparent px-3 text-base text-[#161015] placeholder-[#3f383d]/50 focus:outline-none tracking-[-0.25px]"
+        autocomplete="off"
+      />
+      <div class="flex items-center gap-2 shrink-0">
+        <kbd class="hidden sm:inline-block px-2 py-0.5 text-[11px] font-mono text-[#3f383d] bg-[#f7f4ee] border border-[#e5e0d8] rounded-[60px]">ESC</kbd>
+        <button
+          id="close-search-btn"
+          type="button"
+          class="p-1 rounded-full text-[#3f383d] hover:text-[#161015] hover:bg-[#e5e0d8] transition-colors"
+          aria-label="Close search"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    {/* Quick Topic Chips */}
+    <div class="px-5 py-3 bg-[#f7f4ee] border-b border-[#e5e0d8] flex items-center gap-2 overflow-x-auto text-[13px]">
+      <span class="text-[#3f383d] font-medium shrink-0">Topics:</span>
+      {['System Design', 'AI & LLMs', 'Micro-SaaS', 'Kubernetes', 'Design Systems', 'TypeScript'].map((tag) => (
+        <button
+          type="button"
+          class="quick-tag-btn px-3 py-1 rounded-[60px] bg-white hover:bg-[#292229] hover:text-white text-[#161015] transition-colors border border-[#e5e0d8] shrink-0 font-medium tracking-[-0.2px]"
+          data-query={tag}
+        >
+          {tag}
+        </button>
+      ))}
+    </div>
+
+    {/* Live Results Container */}
+    <div id="search-results-container" class="max-h-[60vh] overflow-y-auto p-4 space-y-1 bg-[#f7f4ee]">
+      {/* Initial state */}
+      <div id="search-initial-state" class="py-10 text-center text-[#3f383d]">
+        <p class="text-[14px]">Type a keyword or select a topic above to search the bookstore.</p>
+      </div>
+
+      {/* No results state */}
+      <div id="search-empty-state" class="hidden py-10 text-center text-[#3f383d]">
+        <p class="text-[15px] font-serif font-bold text-[#161015]">No matching eBooks found</p>
+        <p class="text-[13px] text-[#3f383d] mt-1">Try searching for broader keywords like "architecture" or "leadership".</p>
+      </div>
+
+      {/* Results List */}
+      <ul id="search-results-list" class="space-y-1.5"></ul>
+    </div>
+
+    {/* Footer bar */}
+    <div class="px-5 py-3 bg-white border-t border-[#e5e0d8] text-[12px] text-[#3f383d] flex items-center justify-between">
+      <span>Press <kbd class="px-1.5 py-0.5 bg-[#f7f4ee] rounded border border-[#e5e0d8] font-mono">↵</kbd> to open book</span>
+      <a href="/ebooks" class="text-[#161015] font-medium hover:underline">
+        Browse catalog &rarr;
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script define:vars={{ searchIndex }}>
+  const searchModal = document.getElementById('search-modal');
+  const searchInput = document.getElementById('search-modal-input');
+  const closeBtn = document.getElementById('close-search-btn');
+  const resultsList = document.getElementById('search-results-list');
+  const initialState = document.getElementById('search-initial-state');
+  const emptyState = document.getElementById('search-empty-state');
+  const quickTagButtons = document.querySelectorAll('.quick-tag-btn');
+
+  function openSearch() {
+    if (!searchModal) return;
+    searchModal.classList.remove('hidden');
+    searchModal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => {
+      searchInput?.focus();
+    }, 50);
+  }
+
+  function closeSearch() {
+    if (!searchModal) return;
+    searchModal.classList.add('hidden');
+    searchModal.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('[data-open-search]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openSearch();
+    });
+  });
+
+  closeBtn?.addEventListener('click', closeSearch);
+
+  searchModal?.addEventListener('click', (e) => {
+    if (e.target === searchModal) {
+      closeSearch();
+    }
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      if (searchModal?.classList.contains('hidden')) {
+        openSearch();
+      } else {
+        closeSearch();
+      }
+    } else if (e.key === 'Escape') {
+      closeSearch();
+    }
+  });
+
+  function renderSearch(query) {
+    const q = query.toLowerCase().trim();
+    if (!q) {
+      initialState?.classList.remove('hidden');
+      emptyState?.classList.add('hidden');
+      if (resultsList) resultsList.innerHTML = '';
+      return;
+    }
+
+    initialState?.classList.add('hidden');
+
+    const matches = searchIndex.filter((item) => {
+      return (
+        item.title.toLowerCase().includes(q) ||
+        item.subtitle.toLowerCase().includes(q) ||
+        item.category.toLowerCase().includes(q) ||
+        item.authorName.toLowerCase().includes(q) ||
+        item.tags.some((t) => t.toLowerCase().includes(q))
+      );
+    });
+
+    if (matches.length === 0) {
+      emptyState?.classList.remove('hidden');
+      if (resultsList) resultsList.innerHTML = '';
+      return;
+    }
+
+    emptyState?.classList.add('hidden');
+    if (!resultsList) return;
+
+    resultsList.innerHTML = matches
+      .map((b) => {
+        return `
+        <li>
+          <a
+            href="/ebooks/${b.slug}"
+            class="flex items-center justify-between p-3.5 rounded-[12px] bg-white hover:bg-[#ededed] transition-colors group border border-[#e5e0d8]"
+          >
+            <div class="min-w-0 pr-3">
+              <div class="flex items-center gap-2 mb-1">
+                ${b.badge ? `<span class="text-[10px] font-semibold px-2 py-0.5 rounded-[60px] bg-[#292229] text-white">${b.badge}</span>` : ''}
+                <span class="text-[12px] text-[#064c37] font-medium">${b.category}</span>
+              </div>
+              <h4 class="text-[15px] font-serif font-bold text-[#161015] group-hover:text-[#064c37] transition-colors truncate">
+                ${b.title}
+              </h4>
+              <p class="text-[12px] text-[#3f383d] truncate mt-0.5">By ${b.authorName}</p>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-[15px] font-bold text-[#161015]">$${b.price}</div>
+              <div class="text-[12px] text-[#3f383d] flex items-center justify-end gap-1">
+                <span>★</span> <span>${b.rating.toFixed(1)}</span>
+              </div>
+            </div>
+          </a>
+        </li>
+      `;
+      })
+      .join('');
+  }
+
+  searchInput?.addEventListener('input', (e) => {
+    renderSearch(e.target.value);
+  });
+
+  quickTagButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const q = btn.dataset.query || '';
+      if (searchInput) {
+        searchInput.value = q;
+        renderSearch(q);
+      }
+    });
+  });
+</script>

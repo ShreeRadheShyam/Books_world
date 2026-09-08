@@ -1,0 +1,385 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BookCover3D from '../../components/ebook/BookCover3D.astro';
+import ExternalCTA from '../../components/ebook/ExternalCTA.astro';
+import TableOfContents from '../../components/ebook/TableOfContents.astro';
+import SocialShare from '../../components/ebook/SocialShare.astro';
+import EbookCard from '../../components/ebook/EbookCard.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import RatingStars from '../../components/ui/RatingStars.astro';
+import PriceDisplay from '../../components/ui/PriceDisplay.astro';
+import Badge from '../../components/ui/Badge.astro';
+import { getAllEbooks, getAuthorById, getRelatedEbooks } from '../../data';
+import { generateBookSchema, generateBreadcrumbSchema, SITE_URL } from '../../utils/seo';
+
+export function getStaticPaths() {
+  const books = getAllEbooks();
+  return books.map((ebook) => ({
+    params: { slug: ebook.slug },
+    props: { ebook }
+  }));
+}
+
+const { ebook } = Astro.props;
+const author = getAuthorById(ebook.authorId);
+const relatedBooks = getRelatedEbooks(ebook, 3);
+
+const breadcrumbs = [
+  { label: 'Catalog', href: '/ebooks' },
+  { label: ebook.category, href: `/categories/${ebook.categorySlug}` },
+  { label: ebook.title }
+];
+
+const bookSchema = generateBookSchema(ebook, author);
+const breadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', item: '/' },
+  { name: 'eBooks', item: '/ebooks' },
+  { name: ebook.category, item: `/categories/${ebook.categorySlug}` },
+  { name: ebook.title, item: `/ebooks/${ebook.slug}` }
+]);
+
+const pageUrl = `${SITE_URL}/ebooks/${ebook.slug}`;
+---
+
+<BaseLayout
+  title={`${ebook.title} by ${author?.name || 'Independent Creator'} — BookskiDuniya`}
+  description={ebook.shortDescription}
+  type="book"
+  canonical={pageUrl}
+  schema={[bookSchema, breadcrumbSchema]}
+>
+  <div class="w-full bg-[#f7f4ee] py-10 sm:py-16">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <Breadcrumbs items={breadcrumbs} />
+
+      {/* Top Presentation Grid */}
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+        
+        {/* Left: Book Cover Artwork & Quick Specs */}
+        <div class="lg:col-span-5 flex flex-col items-center">
+          
+          <div class="p-8 sm:p-10 rounded-[24px] bg-white border border-[#e5e0d8] flex justify-center w-full shadow-sm">
+            <BookCover3D ebook={ebook} size="lg" />
+          </div>
+
+          {/* Specifications Table in White Card */}
+          <div class="w-full mt-6 rounded-[12px] bg-white border border-[#e5e0d8] p-6 space-y-3.5 text-[13px] shadow-2xs">
+            <div class="flex items-center justify-between pb-2 border-b border-[#e5e0d8]">
+              <span class="text-[#3f383d]/80">Format</span>
+              <span class="font-mono font-medium text-[#161015]">{ebook.format}</span>
+            </div>
+            <div class="flex items-center justify-between pb-2 border-b border-[#e5e0d8]">
+              <span class="text-[#3f383d]/80">Length</span>
+              <span class="font-mono font-medium text-[#161015]">{ebook.pages} Pages</span>
+            </div>
+            <div class="flex items-center justify-between pb-2 border-b border-[#e5e0d8]">
+              <span class="text-[#3f383d]/80">Language</span>
+              <span class="font-medium text-[#161015]">{ebook.language}</span>
+            </div>
+            <div class="flex items-center justify-between pb-2 border-b border-[#e5e0d8]">
+              <span class="text-[#3f383d]/80">Publication</span>
+              <span class="font-mono text-[#161015]">{ebook.publishedAt}</span>
+            </div>
+            {ebook.lastUpdated && (
+              <div class="flex items-center justify-between pb-2 border-b border-[#e5e0d8]">
+                <span class="text-[#3f383d]/80">Latest Revision</span>
+                <span class="font-mono text-[#064c37] font-semibold">{ebook.lastUpdated}</span>
+              </div>
+            )}
+            <div class="flex items-center justify-between">
+              <span class="text-[#3f383d]/80">Reference</span>
+              <span class="font-mono text-[#3f383d]/60 text-[11px]">{ebook.isbn || `ID: ${ebook.id}`}</span>
+            </div>
+          </div>
+
+          {/* Social Share Bar */}
+          <div class="w-full mt-5 p-4 rounded-[12px] bg-white border border-[#e5e0d8] shadow-2xs">
+            <SocialShare title={ebook.title} url={pageUrl} description={ebook.shortDescription} />
+          </div>
+
+        </div>
+
+        {/* Right: Title, Author, Pricing & Conversion CTA */}
+        <div class="lg:col-span-7 space-y-6">
+          
+          {/* Category & Recognition */}
+          <div class="flex flex-wrap items-center gap-2">
+            {ebook.bestseller && <Badge variant="bestseller">Bestseller</Badge>}
+            {ebook.newRelease && <Badge variant="new">New Release</Badge>}
+            {ebook.editorsPick && <Badge variant="staff">Staff Pick</Badge>}
+            {ebook.featured && <Badge variant="featured">Featured</Badge>}
+
+            <a
+              href={`/categories/${ebook.categorySlug}`}
+              class="text-[12px] font-mono font-bold uppercase tracking-wider text-[#064c37] hover:underline transition-colors ml-auto"
+            >
+              {ebook.category}
+            </a>
+          </div>
+
+          {/* Title & Subtitle in Fraunces */}
+          <div>
+            <h1 class="text-3xl sm:text-4xl lg:text-[46px] font-serif font-normal text-[#161015] tracking-tight leading-[1.05]">
+              {ebook.title}
+            </h1>
+            <p class="text-[16px] sm:text-[18px] text-[#3f383d] font-normal mt-3 leading-relaxed tracking-[-0.27px]">
+              {ebook.subtitle}
+            </p>
+          </div>
+
+          {/* Author Card */}
+          {author && (
+            <div class="flex items-center gap-4 py-3.5 px-5 rounded-[12px] bg-white border border-[#e5e0d8] shadow-2xs">
+              <img
+                src={author.avatar}
+                alt={author.name}
+                class="w-12 h-12 rounded-full object-cover border border-[#e5e0d8]"
+              />
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-2">
+                  <a href={`/authors/${author.slug}`} class="text-[16px] font-medium text-[#161015] hover:underline">
+                    {author.name}
+                  </a>
+                  <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded-[60px] bg-[#f7f4ee] text-[#064c37] font-semibold border border-[#e5e0d8]">Author</span>
+                </div>
+                <p class="text-[13px] text-[#3f383d]/80 truncate">
+                  {author.title} {author.company ? `• ${author.company}` : ''}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Rating and Reviews */}
+          <div class="flex items-center gap-4 py-1">
+            <RatingStars rating={ebook.rating} reviewCount={ebook.reviewCount} size="md" />
+            <span class="text-[#3f383d]/40">&bull;</span>
+            <span class="text-[13px] text-[#064c37] font-medium">
+              Verified Reader Rating
+            </span>
+          </div>
+
+          {/* Pricing & Primary CTA Box */}
+          <div class="p-6 sm:p-8 rounded-[16px] bg-white border border-[#e5e0d8] space-y-6 shadow-sm">
+            <div class="flex items-baseline justify-between">
+              <div>
+                <span class="text-[12px] text-[#3f383d]/70 block mb-1">Direct Creator Price</span>
+                <PriceDisplay price={ebook.price} originalPrice={ebook.originalPrice} size="lg" />
+              </div>
+
+              <div class="text-right text-[13px] text-[#3f383d]">
+                <span class="font-mono text-[#064c37] font-semibold block">DRM-Free Access</span>
+                <span>Immediate Delivery</span>
+              </div>
+            </div>
+
+            {/* Stadium-Pill CTA Button (Charcoal Plum #292229) */}
+            <ExternalCTA ebook={ebook} author={author} label="Get the eBook on Creator's Website" />
+          </div>
+
+          {/* Highlights */}
+          <div class="p-6 rounded-[12px] bg-white border border-[#e5e0d8] space-y-3 shadow-2xs">
+            <h4 class="text-[12px] font-mono font-bold uppercase tracking-wider text-[#161015]">
+              Package Inclusions
+            </h4>
+            <div class="space-y-2">
+              {ebook.highlights.map((item) => (
+                <div class="flex items-start gap-2.5 text-[14px] text-[#3f383d] tracking-[-0.25px]">
+                  <span class="text-[#064c37] font-bold">&check;</span>
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* In-Depth Literary Content */}
+      <div class="mt-16 sm:mt-20 grid grid-cols-1 lg:grid-cols-12 gap-12">
+        
+        {/* Narrative */}
+        <div class="lg:col-span-8 space-y-12">
+          
+          {/* About */}
+          <section class="space-y-4">
+            <h2 class="text-3xl font-serif font-normal text-[#161015] tracking-tight pb-3 border-b border-[#e5e0d8]">
+              About this volume
+            </h2>
+            <div class="text-[16px] text-[#3f383d] leading-relaxed space-y-4 whitespace-pre-line font-normal tracking-[-0.32px]">
+              {ebook.description}
+            </div>
+          </section>
+
+          {/* What You'll Learn */}
+          <section class="space-y-4">
+            <h2 class="text-3xl font-serif font-normal text-[#161015] tracking-tight pb-3 border-b border-[#e5e0d8]">
+              What you will master
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {ebook.whatYouWillLearn.map((outcome, index) => (
+                <div class="rounded-[12px] bg-white border border-[#e5e0d8] p-5 flex items-start gap-3.5 shadow-2xs">
+                  <span class="w-6 h-6 rounded-full bg-[#f7f4ee] text-[#161015] text-[12px] font-mono font-bold flex items-center justify-center shrink-0 border border-[#e5e0d8]">
+                    {index + 1}
+                  </span>
+                  <p class="text-[14px] text-[#3f383d] leading-relaxed tracking-[-0.25px]">
+                    {outcome}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Ideal readers */}
+          <section class="space-y-4">
+            <h2 class="text-3xl font-serif font-normal text-[#161015] tracking-tight pb-3 border-b border-[#e5e0d8]">
+              Target audience
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              
+              <div class="rounded-[12px] bg-white border border-[#e5e0d8] p-6 space-y-3 shadow-2xs">
+                <h3 class="text-[15px] font-bold text-[#064c37] flex items-center gap-2">
+                  <span>&check;</span>
+                  <span>Ideal For</span>
+                </h3>
+                <ul class="space-y-2.5 text-[13px] text-[#3f383d]">
+                  {ebook.targetAudience.idealFor.map((item) => (
+                    <li class="flex items-start gap-2">
+                      <span class="text-[#064c37] font-bold">&bull;</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {ebook.targetAudience.notFor && (
+                <div class="rounded-[12px] bg-white border border-[#e5e0d8] p-6 space-y-3 shadow-2xs">
+                  <h3 class="text-[15px] font-bold text-[#3f383d] flex items-center gap-2">
+                    <span>&times;</span>
+                    <span>Not Designed For</span>
+                  </h3>
+                  <ul class="space-y-2.5 text-[13px] text-[#3f383d]">
+                    {ebook.targetAudience.notFor.map((item) => (
+                      <li class="flex items-start gap-2">
+                        <span class="text-[#3f383d]/60">&bull;</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+            </div>
+          </section>
+
+          {/* Table of Contents */}
+          <section>
+            <TableOfContents chapters={ebook.tableOfContents} totalPages={ebook.pages} />
+          </section>
+
+        </div>
+
+        {/* Sidebar: Extended Author Info */}
+        <aside class="lg:col-span-4 space-y-8">
+          
+          {author && (
+            <div class="rounded-[12px] bg-white border border-[#e5e0d8] p-6 space-y-4 shadow-sm">
+              <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-[#064c37]">
+                About The Author
+              </span>
+              <div class="flex items-center gap-3.5">
+                <img
+                  src={author.avatar}
+                  alt={author.name}
+                  class="w-14 h-14 rounded-full object-cover border border-[#e5e0d8]"
+                />
+                <div>
+                  <h4 class="text-[18px] font-serif font-normal text-[#161015]">
+                    {author.name}
+                  </h4>
+                  <p class="text-[13px] text-[#3f383d]/80">
+                    {author.title}
+                  </p>
+                </div>
+              </div>
+              <p class="text-[13px] text-[#3f383d] leading-relaxed tracking-[-0.2px]">
+                {author.bio}
+              </p>
+
+              <div class="flex items-center gap-3 pt-2 text-[13px]">
+                {author.socials.website && (
+                  <a href={author.socials.website} target="_blank" rel="noopener noreferrer" class="text-[#064c37] hover:underline font-medium">
+                    Website ↗
+                  </a>
+                )}
+                {author.socials.twitter && (
+                  <a href={author.socials.twitter} target="_blank" rel="noopener noreferrer" class="text-[#064c37] hover:underline font-medium">
+                    Twitter ↗
+                  </a>
+                )}
+                {author.socials.github && (
+                  <a href={author.socials.github} target="_blank" rel="noopener noreferrer" class="text-[#064c37] hover:underline font-medium">
+                    GitHub ↗
+                  </a>
+                )}
+              </div>
+
+              <div class="pt-3 border-t border-[#e5e0d8]">
+                <a href={`/authors/${author.slug}`} class="text-[13px] font-medium text-[#161015] hover:underline flex items-center justify-between">
+                  <span>More volumes by {author.name}</span>
+                  <span>&rarr;</span>
+                </a>
+              </div>
+            </div>
+          )}
+
+          {/* Topics & Tags */}
+          <div class="rounded-[12px] bg-white border border-[#e5e0d8] p-6 space-y-3 shadow-2xs">
+            <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-[#3f383d]/70">
+              Taxonomy & Tags
+            </span>
+            <div class="flex flex-wrap gap-2">
+              {ebook.tags.map((tag) => (
+                <a
+                  href={`/ebooks?search=${encodeURIComponent(tag)}`}
+                  class="text-[12px] px-3 py-1 rounded-[60px] bg-[#f7f4ee] hover:bg-[#292229] hover:text-white text-[#161015] transition-colors border border-[#e5e0d8]"
+                >
+                  #{tag}
+                </a>
+              ))}
+            </div>
+          </div>
+
+        </aside>
+
+      </div>
+
+      {/* Related Books */}
+      {relatedBooks.length > 0 && (
+        <div class="mt-20 pt-12 border-t border-[#e5e0d8]">
+          <div class="flex items-end justify-between mb-8">
+            <div>
+              <span class="text-[12px] font-mono font-bold tracking-widest uppercase text-[#064c37]">
+                Similar Reading
+              </span>
+              <h2 class="text-3xl font-serif font-normal text-[#161015] tracking-tight mt-1 leading-snug">
+                Related Volumes
+              </h2>
+            </div>
+            <a href={`/categories/${ebook.categorySlug}`} class="text-[14px] font-medium text-[#161015] hover:text-[#064c37] transition-colors underline underline-offset-4">
+              More in {ebook.category} &rarr;
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {relatedBooks.map((relBook) => (
+              <EbookCard ebook={relBook} />
+            ))}
+          </div>
+        </div>
+      )}
+
+    </div>
+  </div>
+</BaseLayout>

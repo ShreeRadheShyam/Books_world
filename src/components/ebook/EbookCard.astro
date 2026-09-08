@@ -1,0 +1,94 @@
+---
+import type { Ebook } from '../../types';
+import { getAuthorById } from '../../data';
+import BookCover3D from './BookCover3D.astro';
+import RatingStars from '../ui/RatingStars.astro';
+import PriceDisplay from '../ui/PriceDisplay.astro';
+import Badge from '../ui/Badge.astro';
+
+interface Props {
+  ebook: Ebook;
+  priority?: boolean;
+}
+
+const { ebook } = Astro.props;
+const author = getAuthorById(ebook.authorId);
+---
+
+<article class="group relative flex flex-col bg-[#f7f4ee] rounded-[12px] p-6 transition-all duration-300 hover:shadow-[0_4px_20px_0_rgba(0,0,0,0.12)] justify-between">
+  
+  {/* Badges & Format — Subtle 8px chips */}
+  <div class="flex items-center justify-between gap-2 mb-4">
+    <div class="flex items-center gap-1.5 flex-wrap">
+      {ebook.bestseller && <Badge variant="bestseller">Bestseller</Badge>}
+      {ebook.newRelease && <Badge variant="new">New Release</Badge>}
+      {ebook.editorsPick && !ebook.bestseller && <Badge variant="staff">Staff Pick</Badge>}
+      {ebook.featured && !ebook.bestseller && !ebook.newRelease && <Badge variant="featured">Featured</Badge>}
+    </div>
+
+    <span class="text-[11px] font-mono text-[#3f383d]/70">
+      {ebook.format.split('+')[0].trim()}
+    </span>
+  </div>
+
+  {/* Book Cover sitting directly on cream surface */}
+  <div class="flex justify-center py-2 mb-5">
+    <a href={`/ebooks/${ebook.slug}`} class="block focus:outline-none" aria-label={`View details for ${ebook.title}`}>
+      <BookCover3D ebook={ebook} size="md" />
+    </a>
+  </div>
+
+  {/* Information */}
+  <div class="flex-1 flex flex-col justify-between">
+    <div>
+      {/* Category */}
+      <a 
+        href={`/categories/${ebook.categorySlug}`}
+        class="text-[12px] font-semibold uppercase tracking-wider text-[#064c37] hover:underline transition-colors inline-block mb-1.5"
+      >
+        {ebook.subcategory}
+      </a>
+
+      {/* Book Title — Fraunces Serif 20-22px */}
+      <h3 class="text-[20px] font-serif font-normal text-[#161015] leading-[1.2] group-hover:text-[#064c37] transition-colors line-clamp-2">
+        <a href={`/ebooks/${ebook.slug}`}>
+          {ebook.title}
+        </a>
+      </h3>
+
+      {/* Author */}
+      {author && (
+        <div class="flex items-center gap-2 mt-2">
+          <span class="text-[13px] text-[#3f383d]/80">By</span>
+          <a 
+            href={`/authors/${author.slug}`}
+            class="text-[13px] font-medium text-[#161015] hover:underline"
+          >
+            {author.name}
+          </a>
+        </div>
+      )}
+
+      {/* Short Description */}
+      <p class="text-[13px] text-[#3f383d] line-clamp-2 mt-2 leading-relaxed tracking-[-0.2px]">
+        {ebook.shortDescription}
+      </p>
+    </div>
+
+    {/* Bottom Footer: Price, Rating & Stadium Pill CTA */}
+    <div class="mt-6 pt-4 border-t border-[#e5e0d8] flex items-center justify-between">
+      <div class="flex flex-col gap-0.5">
+        <PriceDisplay price={ebook.price} originalPrice={ebook.originalPrice} size="sm" />
+        <RatingStars rating={ebook.rating} reviewCount={ebook.reviewCount} size="sm" />
+      </div>
+
+      <a
+        href={`/ebooks/${ebook.slug}`}
+        class="inline-flex items-center gap-1.5 px-4 py-2 rounded-[60px] bg-[#292229] hover:bg-[#161015] text-white text-[13px] font-medium tracking-[-0.25px] transition-all shadow-[0_4px_14px_rgba(0,0,0,0.2)]"
+      >
+        <span>Explore</span>
+        <span>&rarr;</span>
+      </a>
+    </div>
+  </div>
+</article>

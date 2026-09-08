@@ -1,0 +1,22 @@
+---
+interface Props {
+  variant?: 'default' | 'bestseller' | 'new' | 'featured' | 'staff' | 'discount';
+  class?: string;
+}
+
+const { variant = 'default', class: className = '' } = Astro.props;
+
+// Fable subtle chips: 8px radius, editorial tones
+const variantStyles = {
+  default: 'bg-[#ededed] text-[#161015]',
+  bestseller: 'bg-[#064c37] text-white font-medium',
+  new: 'bg-[#43a1d7] text-white font-medium',
+  featured: 'bg-[#292229] text-white font-medium',
+  staff: 'bg-[#161015] text-[#f7f4ee] font-medium',
+  discount: 'bg-[#064c37]/15 text-[#064c37] font-semibold'
+};
+---
+
+<span class={`inline-flex items-center px-2.5 py-0.5 rounded-[8px] text-[11px] uppercase tracking-wider ${variantStyles[variant]} ${className}`}>
+  <slot />
+</span>
