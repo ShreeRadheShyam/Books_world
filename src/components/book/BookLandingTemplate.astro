@@ -53,11 +53,11 @@ const reviews = book.citationReviews || [
 ---
 
 <BaseLayout 
-  title={`${book.title} — Official Field Guide`}
+  title={`${book.title} — Field Guide`}
   description={book.shortDescription}
 >
-  {/* HERO SECTION: Golden Hour Editorial Canvas (#f2f0eb) with Translucent Glass Cards & 3D Interactive Book */}
-  <section class="relative w-full overflow-hidden pt-12 sm:pt-20 pb-20 sm:pb-28" id="top">
+  {/* HERO */}
+  <section class="relative w-full overflow-hidden pt-10 sm:pt-20 pb-16 sm:pb-28" id="top">
     
     {/* Subtle atmospheric golden-hour warmth in background */}
     <div class="absolute inset-0 pointer-events-none opacity-40">
@@ -74,16 +74,12 @@ const reviews = book.citationReviews || [
           {/* Eyebrow */}
           <div class="flex items-center gap-3">
             <span class="text-[11px] font-bold tracking-[0.2em] uppercase text-[#714cb6]">
-              A Field Guide &bull; 2026 Edition
-            </span>
-            <div class="h-px w-16 bg-[#714cb6]/40"></div>
-            <span class="text-[11px] font-[460] tracking-wider uppercase text-[#666666]">
-              Capability &bull; Consequence &bull; Choice
+              Field Guide &mdash; 2026
             </span>
           </div>
 
-          {/* Headline at Weight 460 — The Superhuman Signature Voice */}
-          <h1 class="headline-display text-[#292827]">
+          {/* Headline */}
+          <h1 class="text-[28px] sm:text-[40px] lg:text-[52px] font-[460] tracking-tight leading-[1.1] text-[#292827]">
             {book.title.replace('10× smarter', '')}
             <span class="text-editorial-serif italic text-[#714cb6] font-normal">10× smarter</span>
             {book.title.includes('tomorrow?') ? ' tomorrow?' : ''}
@@ -130,7 +126,7 @@ const reviews = book.citationReviews || [
                 <span>Unabridged</span>
               </div>
               <p class="text-xs text-[#292827] leading-relaxed">
-                "Separates capability claims from deployment friction, turning uncertainty into executable strategy."
+                "14 chapters. 4 parts. No filler."
               </p>
             </div>
 
@@ -147,7 +143,7 @@ const reviews = book.citationReviews || [
           </div>
 
           <p class="text-xs text-[#666666] font-[460]">
-            Researched &bull; Peer-Reviewed &bull; Direct Author Edition &bull; September 2026
+            Peer-Reviewed &bull; DRM-Free &bull; September 2026
           </p>
 
         </div>
@@ -204,19 +200,7 @@ const reviews = book.citationReviews || [
     </div>
   </section>
 
-  {/* SOCIAL PROOF & CRITICAL CITATIONS: Monochrome 6-Cell White Strip */}
-  <section class="w-full bg-white border-y border-[#e3e3e2] py-8">
-    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 divide-y sm:divide-y-0 sm:divide-x divide-[#e3e3e2]">
-        {reviews.map((r) => (
-          <div class="p-4 text-center">
-            <p class="text-xs font-bold text-[#292827] uppercase tracking-wider">{r.source}</p>
-            <p class="text-[11px] text-[#666666] mt-1 font-editorial-serif italic">"{r.quote}"</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+  {/* SOCIAL PROOF: Removed fake citations — keeping strip clean */}
 
   {/* SUITE TAB STRIP & COMPLETE TABLE OF CONTENTS: White Cards on Parchment Canvas */}
   <section class="w-full py-20 sm:py-28" id="contents">
@@ -229,11 +213,11 @@ const reviews = book.citationReviews || [
           <div class="text-[11px] font-bold uppercase tracking-[0.2em] text-[#714cb6]">
             Inside the Book
           </div>
-          <h2 class="headline-lg text-[#292827]">
-            Not a prophecy.<br />A way to think.
+          <h2 class="text-[26px] sm:text-[32px] font-[460] tracking-tight leading-tight text-[#292827]">
+            One question.<br />A map you can use.
           </h2>
-          <p class="text-[15px] text-[#666666] leading-relaxed">
-            The field guide turns one impossible question into a usable map: define the jump, trace the consequences, name the hard problems, and decide what holds regardless.
+          <p class="text-[14px] text-[#666666] leading-relaxed">
+            Four parts. Define the jump, trace the consequences, name the hard problems, decide what holds regardless.
           </p>
 
           <div class="pt-2">
@@ -353,8 +337,8 @@ const reviews = book.citationReviews || [
         <h2 class="headline-lg text-[#292827]">
           Where the jump <span class="text-editorial-serif italic text-[#714cb6] font-normal">lands first.</span>
         </h2>
-        <p class="text-[16px] text-[#666666] leading-relaxed">
-          Physical bottlenecks slow some domains. Software has almost none. The first year is shaped by where verification is cheap and deployment is already waiting.
+        <p class="text-[15px] text-[#666666] leading-relaxed">
+          Software has no physical friction. It moves first.
         </p>
       </div>
 
@@ -589,8 +573,8 @@ const reviews = book.citationReviews || [
           <h2 class="headline-lg text-[#292827]">
             The question is not <span class="text-editorial-serif italic text-[#714cb6] font-normal">“will it happen?”</span>
           </h2>
-          <p class="text-[17px] text-[#292827]/85 max-w-xl leading-relaxed">
-            It is what the question reveals about the present: where verification is thin, where power is concentrated, and what remains useful either way.
+          <p class="text-[16px] sm:text-[17px] text-[#292827]/85 max-w-xl leading-relaxed">
+            The question matters more than the answer.
           </p>
         </div>
 

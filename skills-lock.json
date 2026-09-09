@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "loop-design-check": {
+      "source": "affaan-m/ecc",
+      "sourceType": "github",
+      "skillPath": "skills/loop-design-check/SKILL.md",
+      "computedHash": "6b2ca93a996dfb0deabdfb32d9b36377ba896fc6df85e51fc3a5b03de4d8f24c"
+    }
+  }
+}

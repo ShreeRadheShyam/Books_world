@@ -7,13 +7,13 @@ const spotlightBook = allBooks[0];
 ---
 
 <BaseLayout 
-  title="BookskiDuniya — Independent Digital Library & Field Guides Press"
-  description="A curated editorial library of battle-tested engineering field guides and technological forecasting. Direct-to-creator."
+  title="BookskiDuniya — Digital Library & Field Guides Press"
+  description="A curated library of engineering field guides and systems thinking books. Direct to the author. DRM-free."
 >
-  {/* MINIMAL EDITORIAL HERO */}
-  <section class="relative w-full overflow-hidden pt-16 sm:pt-24 pb-16 sm:pb-24" id="hero">
+  {/* HERO */}
+  <section class="relative w-full overflow-hidden pt-14 sm:pt-24 pb-14 sm:pb-24" id="hero">
     
-    {/* Subtle atmospheric glow */}
+    {/* Atmospheric glow */}
     <div class="absolute inset-0 pointer-events-none opacity-25">
       <div class="absolute -top-[10%] left-[25%] w-[480px] h-[480px] rounded-full bg-[#d4c7ff]/30 blur-[120px]"></div>
       <div class="absolute top-[20%] right-[20%] w-[500px] h-[500px] rounded-full bg-[#714cb6]/15 blur-[140px]"></div>
@@ -21,29 +21,30 @@ const spotlightBook = allBooks[0];
 
     <div class="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
       
-      {/* Eyebrow badge */}
+      {/* Eyebrow */}
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#714cb6]/8 border border-[#714cb6]/15 text-[#714cb6] text-xs font-[460] tracking-wider uppercase mb-6">
         <span class="w-1.5 h-1.5 rounded-full bg-[#714cb6]"></span>
-        <span>Independent Library &bull; Press Archive</span>
+        <span>Digital library &bull; Field guides press</span>
       </div>
 
       {/* Main Headline */}
-      <h1 class="headline-display text-[#292827] max-w-4xl mx-auto">
-        An editorial library for <span class="text-editorial-serif italic text-[#714cb6] font-normal">frontier engineering</span> &amp; systems thinking.
+      <h1 class="text-[28px] sm:text-[40px] lg:text-[52px] font-[460] tracking-tight leading-[1.1] text-[#292827] max-w-3xl mx-auto">
+        Books for engineers who<br class="hidden sm:block" />
+        <span class="text-editorial-serif italic text-[#714cb6] font-normal"> think in systems.</span>
       </h1>
 
-      {/* Clean, short subtitle */}
-      <p class="text-[17px] sm:text-[19px] text-[#666666] max-w-2xl mx-auto leading-relaxed mt-5">
-        Rigorous field guides and autonomous systems blueprints. Direct-to-creator, DRM-free digital editions.
+      {/* Subtitle */}
+      <p class="text-[15px] sm:text-[17px] text-[#666666] max-w-xl mx-auto leading-relaxed mt-5">
+        DRM-free. Direct to the author. No platform cut.
       </p>
 
-      {/* Minimal Action CTAs */}
-      <div class="flex flex-wrap items-center justify-center gap-3.5 pt-8">
+      {/* CTAs */}
+      <div class="flex flex-wrap items-center justify-center gap-3 pt-8">
         <a 
           href="#library" 
           class="btn-primary-wine shadow-xs"
         >
-          <span>Explore Library</span>
+          <span>Browse Library</span>
           <span>&darr;</span>
         </a>
 
@@ -58,8 +59,8 @@ const spotlightBook = allBooks[0];
     </div>
   </section>
 
-  {/* THE LIBRARY CATALOG: Minimal, Spacious Grid */}
-  <section class="w-full py-16 sm:py-20 border-t border-[#e3e3e2]" id="library">
+  {/* LIBRARY CATALOG */}
+  <section class="w-full py-14 sm:py-20 border-t border-[#e3e3e2]" id="library">
     <div class="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="flex items-baseline justify-between mb-8">
@@ -67,25 +68,25 @@ const spotlightBook = allBooks[0];
           <span class="text-xs font-bold uppercase tracking-[0.18em] text-[#714cb6]">
             Catalog
           </span>
-          <h2 class="headline-sm text-[#292827] mt-1">
-            Available Publications
+          <h2 class="text-[22px] sm:text-[28px] font-[460] tracking-tight text-[#292827] mt-1">
+            Available now
           </h2>
         </div>
         <span class="text-xs text-[#666666] font-mono">
-          {allBooks.length} Volume Live
+          {allBooks.length} volume live
         </span>
       </div>
 
-      {/* Clean Book Grid */}
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+      {/* Book Grid */}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-start">
         {allBooks.map((b) => (
           <article class="card-paper flex flex-col justify-between group hover:border-[#714cb6] transition-all duration-200">
             <div class="space-y-4">
               
-              {/* Cover Card */}
+              {/* Cover */}
               <a href={`/${b.slug}`} class="block group/cover">
                 <div 
-                  class="aspect-[16/10] rounded-xl p-6 flex flex-col justify-between text-white transition-transform duration-200 group-hover/cover:scale-[1.01]" 
+                  class="aspect-[16/10] rounded-xl p-5 sm:p-6 flex flex-col justify-between text-white transition-transform duration-200 group-hover/cover:scale-[1.01]" 
                   style="background: linear-gradient(145deg, #261217 0%, #421d24 60%, #160a0c 100%); border: 1px solid rgba(212, 199, 255, 0.25);"
                 >
                   <div class="flex items-center justify-between text-[11px] font-mono tracking-wider uppercase text-[#d4c7ff]">
@@ -93,7 +94,7 @@ const spotlightBook = allBooks[0];
                     <span>${b.price.toFixed(2)} USD</span>
                   </div>
                   <div>
-                    <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-white leading-tight">
+                    <h3 class="text-lg sm:text-2xl font-bold tracking-tight text-white leading-tight">
                       {b.title}
                     </h3>
                     <p class="text-xs text-editorial-serif italic text-white/80 mt-1.5 line-clamp-1">
@@ -102,13 +103,13 @@ const spotlightBook = allBooks[0];
                   </div>
                   <div class="text-[10.5px] font-mono text-white/60 flex items-center justify-between">
                     <span>14 Chapters &bull; 4 Parts</span>
-                    <span class="text-[#d4c7ff] font-semibold">Open Page &rarr;</span>
+                    <span class="text-[#d4c7ff] font-semibold">Open &rarr;</span>
                   </div>
                 </div>
               </a>
 
-              {/* Minimal Description */}
-              <div class="space-y-2">
+              {/* Description */}
+              <div class="space-y-1.5">
                 <h4 class="text-base font-[500] text-[#292827] group-hover:text-[#421d24] transition-colors">
                   <a href={`/${b.slug}`}>{b.title}</a>
                 </h4>
@@ -117,8 +118,8 @@ const spotlightBook = allBooks[0];
                 </p>
               </div>
 
-              {/* Minimal Format Pills */}
-              <div class="flex items-center gap-2 pt-2 text-[11px] font-mono text-[#666666]">
+              {/* Format Pills */}
+              <div class="flex flex-wrap items-center gap-2 pt-1 text-[11px] font-mono text-[#666666]">
                 <span class="px-2 py-0.5 rounded bg-black/5 text-[#292827]">DRM-Free</span>
                 <span class="px-2 py-0.5 rounded bg-black/5 text-[#292827]">EPUB + PDF + MD</span>
                 <span class="text-[#714cb6] font-semibold ml-auto">${b.price.toFixed(2)} USD</span>
@@ -126,13 +127,13 @@ const spotlightBook = allBooks[0];
 
             </div>
 
-            {/* Clean Actions */}
+            {/* Actions */}
             <div class="pt-4 mt-4 border-t border-[#e3e3e2] flex items-center justify-between gap-3">
               <a 
                 href={`/${b.slug}`}
                 class="text-xs font-semibold text-[#714cb6] hover:underline"
               >
-                Read Field Guide (/{b.slug}) &rarr;
+                Read Guide &rarr;
               </a>
 
               <button 
@@ -146,10 +147,10 @@ const spotlightBook = allBooks[0];
           </article>
         ))}
 
-        {/* Coming Soon Teaser Card */}
-        <article class="card-paper flex flex-col justify-between border-dashed border-[#e3e3e2] opacity-80">
+        {/* Coming Soon */}
+        <article class="card-paper flex flex-col justify-between border-dashed border-[#e3e3e2] opacity-70">
           <div class="space-y-4">
-            <div class="aspect-[16/10] rounded-xl p-6 flex flex-col justify-between bg-black/[0.03] border border-black/[0.06] text-[#666666]">
+            <div class="aspect-[16/10] rounded-xl p-5 sm:p-6 flex flex-col justify-between bg-black/[0.03] border border-black/[0.06] text-[#666666]">
               <span class="text-[10px] font-mono uppercase tracking-wider text-[#714cb6]">VOLUME 02 &bull; FORTHCOMING</span>
               <div>
                 <h3 class="text-lg font-[460] text-[#292827]">Distributed Systems &amp; Consensus at Scale</h3>
@@ -157,12 +158,9 @@ const spotlightBook = allBooks[0];
               </div>
               <span class="text-[10px] font-mono text-[#666666]">In Peer Review &bull; Late 2026</span>
             </div>
-            <p class="text-xs text-[#666666] leading-relaxed">
-              Our editorial press accepts submissions from practitioners on a rolling basis. Direct author royalties and DRM-free preservation.
-            </p>
           </div>
           <div class="pt-4 mt-4 border-t border-[#e3e3e2] text-xs text-[#666666] font-mono">
-            Upcoming Editorial Release
+            Upcoming release
           </div>
         </article>
       </div>
@@ -170,17 +168,17 @@ const spotlightBook = allBooks[0];
     </div>
   </section>
 
-  {/* SPOTLIGHT SECTION: Clean, Focused Showcase */}
-  <section class="w-full py-16 sm:py-20 bg-white border-t border-[#e3e3e2]" id="spotlight">
+  {/* SPOTLIGHT */}
+  <section class="w-full py-14 sm:py-20 bg-white border-t border-[#e3e3e2]" id="spotlight">
     <div class="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center">
         
-        {/* Left: Book Cover preview */}
+        {/* Book Cover */}
         <div class="lg:col-span-5 flex justify-center">
           <a href="/10xAiTomorrow" class="block group">
             <div 
-              class="w-[280px] sm:w-[300px] aspect-[2/3] rounded-2xl p-7 flex flex-col justify-between text-white shadow-xl group-hover:scale-[1.02] transition-transform duration-200"
+              class="w-[220px] sm:w-[280px] aspect-[2/3] rounded-2xl p-6 sm:p-7 flex flex-col justify-between text-white shadow-xl group-hover:scale-[1.02] transition-transform duration-200"
               style="background: linear-gradient(145deg, #261217 0%, #421d24 60%, #160a0c 100%); border: 1px solid rgba(212, 199, 255, 0.35);"
             >
               <div class="text-[10px] font-mono tracking-widest text-[#d4c7ff] uppercase">
@@ -191,7 +189,7 @@ const spotlightBook = allBooks[0];
                 <span class="text-[10px] font-mono uppercase tracking-wider text-white/70 block">
                   WHAT IF AI BECAME
                 </span>
-                <h3 class="text-3xl font-bold tracking-tight text-white leading-none">
+                <h3 class="text-2xl sm:text-3xl font-bold tracking-tight text-white leading-none">
                   10<span class="text-[#d4c7ff]">×</span> SMARTER
                 </h3>
                 <span class="text-[10px] font-mono uppercase tracking-wider text-white/70 block">
@@ -211,22 +209,22 @@ const spotlightBook = allBooks[0];
           </a>
         </div>
 
-        {/* Right: Focused Editorial Details */}
+        {/* Details */}
         <div class="lg:col-span-7 space-y-4">
           <span class="text-xs font-bold uppercase tracking-[0.18em] text-[#714cb6]">
-            Featured Release &bull; 14 Chapters
+            Featured &bull; 14 Chapters
           </span>
 
-          <h2 class="headline-lg text-[#292827]">
+          <h2 class="text-[24px] sm:text-[32px] font-[460] tracking-tight leading-tight text-[#292827]">
             {spotlightBook.title}
           </h2>
 
-          <p class="text-[15px] sm:text-[16px] text-[#666666] leading-relaxed">
-            A field guide, not a prophecy. Separate capability claims from deployment claims, identify the hard control problems, and turn systemic uncertainty into concrete decisions.
+          <p class="text-[14px] sm:text-[15px] text-[#666666] leading-relaxed">
+            A field guide, not a prophecy. Separate capability claims from deployment claims, name the hard control problems, and turn uncertainty into concrete decisions.
           </p>
 
-          {/* 4 Parts at a glance */}
-          <div class="grid grid-cols-2 gap-2.5 pt-2">
+          {/* 4 Parts */}
+          <div class="grid grid-cols-2 gap-2 pt-1">
             <div class="p-3 rounded-lg bg-[#f7f5f0] border border-[#e3e3e2] text-xs">
               <span class="font-bold text-[#714cb6] block">Part 1</span>
               <span class="text-[#292827]">Defining the Jump</span>
@@ -245,12 +243,12 @@ const spotlightBook = allBooks[0];
             </div>
           </div>
 
-          <div class="flex flex-wrap items-center gap-3 pt-3">
+          <div class="flex flex-wrap items-center gap-3 pt-2">
             <a 
               href="/10xAiTomorrow" 
               class="btn-primary-wine text-xs py-2 px-5 h-auto"
             >
-              <span>Read Full Guide (/10xAiTomorrow) &rarr;</span>
+              <span>Read Guide &rarr;</span>
             </a>
 
             <button 
@@ -258,7 +256,7 @@ const spotlightBook = allBooks[0];
               data-open-buy-modal 
               class="btn-outlined-lilac text-xs py-2 px-4"
             >
-              Get Book &bull; $0.90 USD
+              Get Book &bull; $0.90
             </button>
           </div>
 
@@ -269,25 +267,25 @@ const spotlightBook = allBooks[0];
     </div>
   </section>
 
-  {/* CURATION STANDARDS: Minimal 3-Point Manifesto */}
-  <section class="w-full py-16 sm:py-20 border-t border-[#e3e3e2]" id="standards">
+  {/* STANDARDS: Minimal 3-Point */}
+  <section class="w-full py-14 sm:py-20 border-t border-[#e3e3e2]" id="standards">
     <div class="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-xl mx-auto mb-10">
+      <div class="text-center max-w-lg mx-auto mb-10">
         <span class="text-xs font-bold uppercase tracking-[0.18em] text-[#714cb6]">
-          Editorial Manifesto
+          Standards
         </span>
-        <h2 class="headline-sm text-[#292827] mt-1">
-          Our Three Publication Standards
+        <h2 class="text-[22px] sm:text-[28px] font-[460] tracking-tight text-[#292827] mt-1">
+          Three standards, no exceptions.
         </h2>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6">
         <div class="card-paper space-y-2 text-left">
           <span class="text-sm font-mono font-bold text-[#714cb6]">01</span>
           <h4 class="text-sm font-[500] text-[#292827]">Empirical &amp; Falsifiable</h4>
           <p class="text-xs text-[#666666] leading-relaxed">
-            Claims are separated from hype and declare what evidence would prove them wrong.
+            Claims have falsifiable evidence. No hype.
           </p>
         </div>
 
@@ -295,7 +293,7 @@ const spotlightBook = allBooks[0];
           <span class="text-sm font-mono font-bold text-[#714cb6]">02</span>
           <h4 class="text-sm font-[500] text-[#292827]">Actionable Levers</h4>
           <p class="text-xs text-[#666666] leading-relaxed">
-            Every chapter provides concrete checklists and workflows for engineering teams.
+            Every chapter has checklists. Not just ideas.
           </p>
         </div>
 
@@ -303,7 +301,7 @@ const spotlightBook = allBooks[0];
           <span class="text-sm font-mono font-bold text-[#714cb6]">03</span>
           <h4 class="text-sm font-[500] text-[#292827]">Direct to Creator</h4>
           <p class="text-xs text-[#666666] leading-relaxed">
-            100% reader-supported, delivered in DRM-free EPUB, PDF, and raw Markdown.
+            EPUB + PDF + Markdown. No DRM. Ever.
           </p>
         </div>
       </div>
