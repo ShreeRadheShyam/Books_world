@@ -62,17 +62,24 @@ const {
 
     {/* Interactive Chapter Preview Reader Modal */}
     <div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <article class="modal-container">
-        <button class="absolute top-5 right-5 text-2xl text-[#666666] hover:text-[#292827] focus:outline-none modal-close cursor-pointer" type="button" aria-label="Close dialog">
+      <article class="modal-container max-w-[540px]">
+        <button 
+          class="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 rounded-full flex items-center justify-center text-xl text-[#666666] hover:text-[#292827] hover:bg-black/5 active:scale-95 transition-all focus:outline-none modal-close cursor-pointer" 
+          type="button" 
+          aria-label="Close dialog"
+        >
           &times;
         </button>
-        <div class="text-xs font-bold uppercase tracking-wider text-[#714cb6]" id="modal-kicker">
+
+        <div class="text-[11px] font-bold uppercase tracking-[0.18em] text-[#714cb6] pr-8" id="modal-kicker">
           Chapter Preview
         </div>
-        <h2 class="text-2xl sm:text-3xl font-[460] tracking-tight text-[#292827] mt-2 mb-4" id="modal-title">
+
+        <h2 class="text-xl sm:text-2xl font-[460] tracking-tight text-[#292827] mt-1.5 mb-3.5 leading-snug" id="modal-title">
           How to read the field guide
         </h2>
-        <div class="text-[15px] sm:text-[16px] leading-relaxed text-[#292827] space-y-4 font-normal" id="modal-body">
+
+        <div class="text-[14px] sm:text-[15px] leading-relaxed text-[#292827]/90 space-y-3 font-normal" id="modal-body">
           <p>
             This is a field guide, not a prophecy. Each chapter separates capability claims from deployment claims, asks what would falsify a forecast, and turns uncertainty into a decision you can make now.
           </p>
@@ -80,11 +87,12 @@ const {
             Use the chapter cards as entry points. Read the highlighted idea, open a scenario, and return to the checklist when you are ready to act.
           </p>
         </div>
-        <div class="flex flex-wrap items-center gap-3 mt-8 pt-6 border-t border-[#e3e3e2]">
-          <button class="btn-primary-wine text-sm py-2 px-5 h-auto" type="button" data-close-modal>
+
+        <div class="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2.5 mt-6 pt-5 border-t border-[#e3e3e2]">
+          <button class="btn-outlined-lilac text-xs sm:text-sm py-2.5 px-5 text-center justify-center cursor-pointer" type="button" data-close-modal>
             Close preview
           </button>
-          <button class="btn-outlined-lilac text-sm py-2 px-5" type="button" data-open-buy-modal data-close-modal>
+          <button class="btn-primary-wine text-xs sm:text-sm py-2.5 px-5 text-center justify-center cursor-pointer" type="button" data-open-buy-modal data-close-modal>
             Get Full Field Guide ($0.90) &rarr;
           </button>
         </div>
@@ -93,8 +101,13 @@ const {
 
     {/* Dedicated Buy The Book Modal with Instant Download */}
     <div class="modal-backdrop" id="buy-modal" role="dialog" aria-modal="true" aria-labelledby="buy-modal-title">
-      <article class="modal-container max-w-[760px]">
-        <button class="absolute top-5 right-5 text-2xl text-[#666666] hover:text-[#292827] focus:outline-none cursor-pointer" type="button" data-close-buy-modal aria-label="Close dialog">
+      <article class="modal-container max-w-[720px]">
+        <button 
+          class="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 rounded-full flex items-center justify-center text-xl text-[#666666] hover:text-[#292827] hover:bg-black/5 active:scale-95 transition-all focus:outline-none cursor-pointer" 
+          type="button" 
+          data-close-buy-modal 
+          aria-label="Close dialog"
+        >
           &times;
         </button>
 
